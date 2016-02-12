@@ -39,7 +39,7 @@ class ConnectionFaker
     public $accountPassword;
 
      /**
-     * Holds fake query.
+     * Holds empty query for testing purposes.
      *
      * @var string
      */
@@ -59,6 +59,5 @@ class ConnectionFaker
         $this->accountUsername = "name";
         $this->accountPassword = "password";
         $this->debug = false;
-        $this->query = "";
     }
 }

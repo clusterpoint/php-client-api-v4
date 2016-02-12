@@ -1,11 +1,14 @@
 <?php
-
 namespace spec\Clusterpoint\Response;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Clusterpoint\Helper\Test\ConnectionFaker;
 
+/**
+ * Clusterpoint/Response/Batch Unit Testing
+ *
+ */
 class BatchSpec extends ObjectBehavior
 {
 	protected $json = '{"results":[{"name":"Marks","age":24,"city":"Riga","_id":"_id_1"},{"name":"Clusterpoint","age":10,"city":"Riga","_id":"_id_2"}],"error":null,"seconds":0.129516,"hits":"40","more":"=21","found":"2","from":"0","to":"2"}';

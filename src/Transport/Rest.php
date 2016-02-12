@@ -10,7 +10,7 @@ class Rest implements TransportInterface
      * Executes Query.
      *
      * @param  \stdClass $connection
-     * @return \Clusterpoint\Response\Single|\Clusterpoint\Response\Batch|string 
+     * @return \Clusterpoint\Response\Single|\Clusterpoint\Response\Batch|string|\Clusterpoint\Helper\Test\ConnectionFaker
      */
     public static function execute($connection)
     {

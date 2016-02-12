@@ -1,6 +1,9 @@
 <?php 
 namespace Clusterpoint\Helper;
 
+/**
+ * Adjusts field selecting to correct way.
+ */
 class Key
 {
     /**

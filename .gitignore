@@ -5,4 +5,6 @@ composer.phar
 config.php
 phpcompatinfo-5.0.0.phar
 phpDocumentor.phar
+sami.phar
+sami.config
 /.idea

@@ -6,16 +6,24 @@ use PhpSpec\ObjectBehavior;
 use Clusterpoint\Client;
 use Clusterpoint\Helper\Test\ConnectionFaker;
 
-
+/**
+ * Clusterpoint/Instance/Servuce Unit Testing.
+ *
+ */
 class ServiceSpec extends ObjectBehavior
 {
-	//Where
     function it_is_initializable()
     {
     	$this->beConstructedWith(new ConnectionFaker);
         $this->shouldHaveType('Clusterpoint\Instance\Service');
     }
     
+    function it_parses_implemented_classes()
+    {
+        $this->beConstructedWith(new ConnectionFaker);
+        $this->shouldImplement('Clusterpoint\Query\Builder');
+    }
+
     function it_parses_where_field_only()
     {
         $this->beConstructedWith(new ConnectionFaker);
@@ -25,6 +33,7 @@ class ServiceSpec extends ObjectBehavior
         $connection->method->shouldReturn('POST');
     }
 
+    // Where
     function it_parses_where_clause_number()
     {
     	$this->beConstructedWith(new ConnectionFaker);
@@ -159,7 +168,7 @@ class ServiceSpec extends ObjectBehavior
         $connection->method->shouldReturn('POST');
     }
 
-    //insert
+    // Insert
     function it_parses_insert_one()
     {
         $this->beConstructedWith(new ConnectionFaker);

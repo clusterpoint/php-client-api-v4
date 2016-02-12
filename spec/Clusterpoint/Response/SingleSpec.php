@@ -1,11 +1,14 @@
 <?php
-
 namespace spec\Clusterpoint\Response;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Clusterpoint\Helper\Test\ConnectionFaker;
 
+/**
+ * Clusterpoint/Response/Single Unit Testing
+ *
+ */
 class SingleSpec extends ObjectBehavior
 {
 	protected $json = '{"results":[{"name":"Marks","age":24,"array":["1","2"],"_id":"id_string"}],"error":null,"seconds":0.064686,"hits":"40","more":"=30","found":"1","from":"0","to":"1"}';

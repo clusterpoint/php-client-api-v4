@@ -1,6 +1,9 @@
 <?php 
 namespace Clusterpoint\Helper;
 
+/**
+ * Makes any output stay the way it is.
+ */
 class Raw
 {
     /**

@@ -12,13 +12,14 @@ alias phpspec="./vendor/phpspec/phpspec/bin/phpspec"
 phpspec run
 ```
 
-##Compatability check
+#Compatability check
+##phpcompatinfo
 
 ```
 wget http://bartlett.laurent-laville.org/get/phpcompatinfo-5.0.0.phar  
 php phpcompatinfo-5.0.0.phar analyser:run .
 ```
 
-##DOC API generation
-
+#DOC API generation
+## Sami
 * [Sami GitHub Repo](https://github.com/FriendsOfPHP/Sami)

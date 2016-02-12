@@ -6,7 +6,7 @@ use Clusterpoint\Query\Parser as QueryParser;
 class Single extends Response
 {
     /**
-     * Holds _id of document.
+     * Holds "_id" of document.
      *
      * @var string
      */

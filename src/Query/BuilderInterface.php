@@ -1,6 +1,9 @@
 <?php 
 namespace Clusterpoint\Query;
 
+/**
+ * Interface for Clusterpoint\Query\Builder
+ */
 interface BuilderInterface
 {
     /**
