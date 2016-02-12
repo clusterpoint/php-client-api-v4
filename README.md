@@ -1,9 +1,9 @@
 # Clusterpoint 4.0 PHP Client API
 
-[![License](https://poser.pugx.org/clusterpoint/php-client-api-v4/license)](https://packagist.org/packages/clusterpoint/php-client-api)
-[![Total Downloads](https://poser.pugx.org/clusterpoint/php-client-api-v4/downloads)](https://packagist.org/packages/clusterpoint/php-client-api)
-[![Latest Stable Version](https://poser.pugx.org/clusterpoint/php-client-api-v4/v/stable)](https://packagist.org/packages/clusterpoint/php-client-api)
-[![Latest Unstable Version](https://poser.pugx.org/clusterpoint/php-client-api-v4/v/unstable)](https://packagist.org/packages/clusterpoint/php-client-api)
+[![License](https://poser.pugx.org/clusterpoint/php-client-api-v4/license)](https://packagist.org/packages/clusterpoint/php-client-api-v4)
+[![Total Downloads](https://poser.pugx.org/clusterpoint/php-client-api-v4/downloads)](https://packagist.org/packages/clusterpoint/php-client-api-v4)
+[![Latest Stable Version](https://poser.pugx.org/clusterpoint/php-client-api-v4/v/stable)](https://packagist.org/packages/clusterpoint/php-client-api-v4)
+[![Latest Unstable Version](https://poser.pugx.org/clusterpoint/php-client-api-v4/v/unstable)](https://packagist.org/packages/clusterpoint/php-client-api-v4)
 
 Clusterpoint is a NoSQL document database known for its innovative Cloud-based distributed architecture, fast processing speed, and a flexible "pay as you use" pricing model. The database also features a developer-friendly API suitable for many popular modern programming languages, including PHP -- the specific API which is the focus of this document. Its full support for ACID-compliant transactions is a rarity among NoSQL databases, making the product useful for situations where data integrity is a must.
 
