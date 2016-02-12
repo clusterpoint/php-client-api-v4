@@ -14,7 +14,6 @@
 |
 | EU host : "https://api-eu.clusterpoint.com/v4"
 | US host : "https://api-us.clusterpoint.com/v4"
-|
 */
 
 return array(
