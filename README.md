@@ -41,7 +41,7 @@ Documentation for the API can be found on the [Clusterpoint website](https://www
 ``composer require clusterpoint/php-client-api-v4``
 1. **Publish config file** - this is optional step, you can pass access points during workflow, but this might make your development process easier.  
 ``php -r "copy('vendor/clusterpoint/php-client-api-v4/src/config.example', 'clusterpoint.php');"``  
-1. **Access** – You can pass the credentials inside on `Clusterpoint\Connection` class construction, or use **clusterpoint.php** inside your project root folder, to manage your access points.  
+1. **Access** – You can pass the credentials inside on `Clusterpoint\Client` class construction, or use **clusterpoint.php** inside your project root folder, to manage your access points.  
 
 <a name="usage"></a>
 ## Quick Example
