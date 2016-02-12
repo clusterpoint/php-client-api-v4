@@ -20,7 +20,7 @@ The recently introduced fourth edition of Clusterpoint added a unique JavaScript
 <a name="documentation"></a>
 ## Official Documentation
 
-Documentation for the API can be found on the [Clusterpoint website](https://www.clusterpoint.com/docs/api/4/php/).
+Documentation for the API can be found on the [Clusterpoint website](https://www.clusterpoint.com/apidoc/php-v4/).
 
 <a name="requirements"></a>
 ## Requirements
