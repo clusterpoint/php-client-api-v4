@@ -166,7 +166,7 @@ class Parser
             $connection->query .= 'ORDER BY '.implode(", ", $scope->orderBy).' ';
         }
         $connection->query .= 'LIMIT '.$scope->offset.', '.$scope->limit;
-        if($return) {
+        if ($return) {
             return $connection->query;
         }
         $connection->method = 'POST';

@@ -224,7 +224,7 @@ class Response implements Iterator, Countable
      */
     public function toJSON($pretty = false)
     {
-        if($pretty){
+        if ($pretty) {
             return json_encode($this->scope->results, JSON_PRETTY_PRINT);
         }
         return json_encode($this->scope->results);

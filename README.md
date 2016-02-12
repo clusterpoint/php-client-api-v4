@@ -1,9 +1,9 @@
 # Clusterpoint 4.0 PHP Client API
 
-[![License](https://poser.pugx.org/clusterpoint/php-client-api/license)](https://packagist.org/packages/clusterpoint/php-client-api)
-[![Total Downloads](https://poser.pugx.org/clusterpoint/php-client-api/downloads)](https://packagist.org/packages/clusterpoint/php-client-api)
-[![Latest Stable Version](https://poser.pugx.org/clusterpoint/php-client-api/v/stable)](https://packagist.org/packages/clusterpoint/php-client-api)
-[![Latest Unstable Version](https://poser.pugx.org/clusterpoint/php-client-api/v/unstable)](https://packagist.org/packages/clusterpoint/php-client-api)
+[![License](https://poser.pugx.org/clusterpoint/php-client-api-v4/license)](https://packagist.org/packages/clusterpoint/php-client-api)
+[![Total Downloads](https://poser.pugx.org/clusterpoint/php-client-api-v4/downloads)](https://packagist.org/packages/clusterpoint/php-client-api)
+[![Latest Stable Version](https://poser.pugx.org/clusterpoint/php-client-api-v4/v/stable)](https://packagist.org/packages/clusterpoint/php-client-api)
+[![Latest Unstable Version](https://poser.pugx.org/clusterpoint/php-client-api-v4/v/unstable)](https://packagist.org/packages/clusterpoint/php-client-api)
 
 Clusterpoint is a NoSQL document database known for its innovative Cloud-based distributed architecture, fast processing speed, and a flexible "pay as you use" pricing model. The database also features a developer-friendly API suitable for many popular modern programming languages, including PHP -- the specific API which is the focus of this document. Its full support for ACID-compliant transactions is a rarity among NoSQL databases, making the product useful for situations where data integrity is a must.
 
@@ -20,7 +20,7 @@ The recently introduced fourth edition of Clusterpoint added a unique JavaScript
 <a name="documentation"></a>
 ## Official Documentation
 
-Documentation for the API can be found on the [Clusterpoint website](https://wiki.clusterpoint.com/api/4/php/).
+Documentation for the API can be found on the [Clusterpoint website](https://clusterpoint.com/docs/api/4/php/).
 
 <a name="requirements"></a>
 ## Requirements
@@ -33,12 +33,12 @@ Documentation for the API can be found on the [Clusterpoint website](https://wik
 ## Getting Started
 
 1. **Sign up for Clusterpoint** – Before you begin, you need to
-   sign up for a Clusterpoint account and retrieve your [Clusterpoint credentials](https://wiki.clusterpoint.com/4.0/21/cloud-account-setup).
+   sign up for a Clusterpoint account and retrieve your [Clusterpoint credentials](https://clusterpoint.com/docs/4.0/21/cloud-account-setup).
 1. **Minimum requirements** – To run the PHP Client API, your system will need to meet the
    [minimum requirements](#requirements), including having **PHP >= 5.4.0
    compiled with the cURL extension and cURL 4.0.2+.
 1. **Install the API** – [Composer](https://getcomposer.org/) is the right way to install the PHP Client API.  
-``composer require clusterpoint/php-client-api 4.0.x-dev``
+``composer require clusterpoint/php-client-api-v4``
 1. **Publish config file** - this is optional step, you can pass access points during workflow, but this might make your development process easier.  
 ``php -r "copy('vendor/clusterpoint/php-client-api-v4/src/config.example', 'clusterpoint.php');"``  
 1. **Access** – You can pass the credentials inside on `Clusterpoint\Connection` class construction, or use **clusterpoint.php** inside your project root folder, to manage your access points.  

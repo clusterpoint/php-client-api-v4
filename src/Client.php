@@ -6,6 +6,19 @@ use Clusterpoint\Helper\Key as ClusterpointKey;
 use Clusterpoint\Helper\Raw as ClusterpointRaw;
 use Clusterpoint\Exceptions\ClusterpointException;
 
+/**
+ * Clusterpoint PHP Client API for DB version 4.*
+ *
+ * PHP version 5.4
+ *
+ * @category   Library
+ * @package    Clusterpoint PHP Client API v4
+ * @author     Marks Gerasimovs <marks.gerasimovs@clusterpoint.com>
+ * @copyright  2016 Clusterpoint Ltd.
+ * @license    MIT
+ * @version    4.0.1
+ * @link       https://clusterpoint.com/docs/api/4/php
+ */
 class Client
 {
     /**

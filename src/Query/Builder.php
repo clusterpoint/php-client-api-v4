@@ -12,7 +12,22 @@ abstract class Builder  implements BuilderInterface
      * @var \stdClass
      */
     protected $scope;
+
+    /**
+     * The stdClass with scope of connection access points.
+     *
+     * @var \stdClass
+     */
+    protected $connection;
     
+    /**
+     * Set connection access points.
+     *
+     * @param  \stdClass  $connection
+     * @return void
+     */
+    abstract public function __construct($connection);
+
     /**
      * Reset scope to standart values.
      *
@@ -329,7 +344,7 @@ abstract class Builder  implements BuilderInterface
      * @return \Clusterpoint\Response\Single
      */
     public function update($id, $document  = null)
-    {   
+    {
         try {
             $response = Parser::update($id, $document, $this->connection);
         } catch (ClusterpointException $e) {
