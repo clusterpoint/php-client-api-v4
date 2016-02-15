@@ -29,6 +29,6 @@ class Rest implements TransportInterface
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
         $curlResponse = curl_exec($curl);
         curl_close($curl);
-        return ($connection->query=='BEGIN_TRANSACTION') ? json_decode($curlResponse)->{'transaction_id'} : ((isset($connection->multiple) && $connection->multiple) ? new ResponseMultiple($curlResponse) : new ResponseSingle($curlResponse, $connection));
+        return (isset($connection->query) && $connection->query=='BEGIN_TRANSACTION') ? json_decode($curlResponse)->{'transaction_id'} : ((isset($connection->multiple) && $connection->multiple) ? new ResponseMultiple($curlResponse) : new ResponseSingle($curlResponse, $connection));
     }
 }
