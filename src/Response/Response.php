@@ -3,9 +3,10 @@ namespace Clusterpoint\Response;
 
 use Iterator;
 use Countable;
+use Clusterpoint\ConnectionInterface;
 use Clusterpoint\Exceptions\ClusterpointException;
 
-class Response implements Iterator, Countable
+class Response implements Iterator, Countable, ResponseInterface
 {
     /**
      * Holds response results and meta info.
@@ -28,30 +29,24 @@ class Response implements Iterator, Countable
      * @param  object $connection
      * @return void
      */
-    public function __construct($raw_response, $connection = false)
+    public function __construct($raw_response,ConnectionInterface $connection)
     {
         $this->scope = new \stdClass;
         $response = json_decode($raw_response);
+        $this->scope = new Scope($response);
         $this->scope->rawResponse = $raw_response;
-        $this->scope->to = isset($response->to) ? $response->to : null;
-        $this->scope->from = isset($response->from) ? $response->from : null;
-        $this->scope->hits = isset($response->hits) ? $response->hits : null;
-        $this->scope->more = isset($response->more) ? $response->more : null;
-        $this->scope->error = isset($response->error) ? $response->error : null;
-        $this->scope->found = isset($response->found) ? $response->found : null;
-        $this->scope->seconds = isset($response->seconds) ? $response->seconds : null;
-        $this->scope->executedQuery = isset($connection->query) ? $connection->query : null;
+        $this->scope->query = isset($connection->query) ? $connection->query : null;
+        $this->connection = clone($connection);
+        $this->connection->resetSelf();
         if ($this instanceof Single) {
-            unset($connection->query);
-            $this->connection = $connection;
             $this->scope->results = isset($response->results) ? isset($response->results[0]) ? (array)$response->results[0] : array() : array();
             $this->_id = isset($this->scope->results["_id"]) ? $this->scope->results["_id"] : false;
-        } else {
-            $this->scope->results = isset($response->results) ? $response->results : array();
         }
         if (isset($this->scope->error)) {
             foreach ($this->scope->error as $error) {
-                throw new ClusterpointException($error->message, $error->code);
+                if(!$connection instanceof \Clusterpoint\Testing\ConnectionFaker){
+                    throw new ClusterpointException($error->message, $error->code);
+                }
             }
         }
     }
@@ -203,7 +198,7 @@ class Response implements Iterator, Countable
      */
     public function executedQuery()
     {
-        return $this->scope->executedQuery;
+        return $this->scope->query;
     }
 
     /**

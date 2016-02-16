@@ -6,6 +6,7 @@ use Clusterpoint\Exceptions\ClusterpointException;
 
 class Parser
 {
+
     /**
      * Pass back SELECT clause string to set in scope.
      *
@@ -153,7 +154,7 @@ class Parser
      * @param  bool $multiple
      * @return \Clusterpoint\Response\Batch
      */
-    public static function get($scope, $connection, $multiple, $return = false)
+    public static function get(\Clusterpoint\Query\Scope $scope, $connection, $multiple, $return = false)
     {
         $connection->query = $scope->prepend.'SELECT '.$scope->select.' FROM '.$connection->db.' ';
         if ($scope->where!='') {
@@ -172,6 +173,7 @@ class Parser
         $connection->method = 'POST';
         $connection->action = '/_query';
         $connection->multiple = $multiple;
+        $scope->resetSelf();
         return self::sendQuery($connection);
     }
     
@@ -413,15 +415,10 @@ class Parser
      * @param  \stdClass $connection
      * @return mixed
      */
-    public static function sendQuery($connection)
+    public static function sendQuery(\Clusterpoint\ConnectionInterface $connection)
     {
-        try {
-            $response = DataLayer::execute($connection);
-        } catch (ClusterpointException $e) {
-            if ($connection->debug==true) {
-                echo $e;
-            }
-        }
+        $response = DataLayer::execute($connection);
+        $connection->resetSelf();
         return $response;
     }
 

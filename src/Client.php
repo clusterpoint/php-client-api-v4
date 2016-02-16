@@ -5,6 +5,7 @@ use Clusterpoint\Instance\Service;
 use Clusterpoint\Helper\Key as ClusterpointKey;
 use Clusterpoint\Helper\Raw as ClusterpointRaw;
 use Clusterpoint\Exceptions\ClusterpointException;
+use Clusterpoint\Standart\Connection as StandartConnection;
 
 /**
  * Clusterpoint PHP Client API for DB version 4.*
@@ -16,7 +17,7 @@ use Clusterpoint\Exceptions\ClusterpointException;
  * @author     Marks Gerasimovs <marks.gerasimovs@clusterpoint.com>
  * @copyright  2016 Clusterpoint Ltd.
  * @license    MIT
- * @version    4.0.1
+ * @version    4.0.2
  * @link       https://clusterpoint.com/docs/api/4/php
  */
 class Client
@@ -36,38 +37,7 @@ class Client
      */
     public function __construct($connection = "default")
     {
-        if (gettype($connection)=="string") {
-            $config = include(__DIR__.'/../../../../clusterpoint.php');
-            $connection = $config[$connection];
-        }
-        $this->connection = new \stdClass;
-        $this->connection->debug = isset($connection['debug']) ? $connection['debug'] : false;
-        try {
-            if (!isset($connection['account_id'])) {
-                throw new ClusterpointException("Account ID is not set", 9004);
-            } else {
-                $this->connection->accountId = $connection['account_id'];
-            }
-            if (!isset($connection['username'])) {
-                throw new ClusterpointException("Account username is not set", 9004);
-            } else {
-                $this->connection->accountUsername = $connection['username'];
-            }
-            if (!isset($connection['password'])) {
-                throw new ClusterpointException("Account password is not set", 9004);
-            } else {
-                $this->connection->accountPassword = $connection['password'];
-            }
-            if (!isset($connection['host'])) {
-                throw new ClusterpointException("Host is not set", 9004);
-            } else {
-                $this->connection->host = $connection['host'];
-            }
-        } catch (ClusterpointException $e) {
-            if ($this->connection->debug==true) {
-                echo $e;
-            }
-        }
+        $this->connection = class_exists("Clusterpoint\Connection") ? new Connection($connection) : new StandartConnection($connection);
     }
 
     /**

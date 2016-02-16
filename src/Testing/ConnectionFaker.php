@@ -1,7 +1,8 @@
 <?php 
-namespace Clusterpoint\Helper\Test;
+namespace Clusterpoint\Testing;
+use Clusterpoint\ConnectionInterface;
 
-class ConnectionFaker
+class ConnectionFaker implements ConnectionInterface
 {
     /**
      * Holds fake database name.
@@ -29,14 +30,23 @@ class ConnectionFaker
      *
      * @var string
      */
-    public $accountUsername;
+    public $username;
 
      /**
      * Holds fake Password.
      *
      * @var string
      */
-    public $accountPassword;
+    public $password;
+
+    
+
+     /**
+     * Holds empty query for testing purposes.
+     *
+     * @var string
+     */
+    public $debug;
 
      /**
      * Holds empty query for testing purposes.
@@ -44,7 +54,7 @@ class ConnectionFaker
      * @var string
      */
     public $query;
-
+    
     /**
      * Set connection fake access points.
      *
@@ -56,8 +66,12 @@ class ConnectionFaker
         $this->db = "database";
         $this->host = "https://api-eu.clusterpoint.com/v4";
         $this->accountId = "1";
-        $this->accountUsername = "name";
-        $this->accountPassword = "password";
-        $this->debug = false;
+        $this->username = "name";
+        $this->password = "password";
+        $this->debug = true;
+        $this->query = null;
+    }
+
+    public function resetSelf(){
     }
 }

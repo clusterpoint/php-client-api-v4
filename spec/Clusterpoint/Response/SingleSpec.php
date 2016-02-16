@@ -3,7 +3,7 @@ namespace spec\Clusterpoint\Response;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Clusterpoint\Helper\Test\ConnectionFaker;
+use Clusterpoint\Testing\ConnectionFaker;
 
 /**
  * Clusterpoint/Response/Single Unit Testing
@@ -56,17 +56,15 @@ class SingleSpec extends ObjectBehavior
     	$this->beConstructedWith($this->json, new ConnectionFaker);
     	$this->surname = "Gerasimovs";
         $connection =  $this->save();
-        $connection->query->shouldReturn('{"name" : "Marks","age" : 24,"array" : ["1","2"],"_id" : "id_string","surname" : "Gerasimovs"}');
-        $connection->method->shouldReturn('PUT');
-        $connection->action->shouldReturn('[id_string]');
+        $connection->executedQuery()->shouldReturn('{"name" : "Marks","age" : 24,"array" : ["1","2"],"_id" : "id_string","surname" : "Gerasimovs"}');
     }
 
     function it_parses_delete()
     {
     	$this->beConstructedWith($this->json, new ConnectionFaker);
         $connection = $this->delete();
-        $connection->method->shouldReturn('DELETE');
-        $connection->action->shouldReturn('[id_string]');
+        $connection->getConnection()->method->shouldReturn('DELETE');
+        $connection->getConnection()->action->shouldReturn('[id_string]');
     }
 
     function it_parses_implemented_classes()

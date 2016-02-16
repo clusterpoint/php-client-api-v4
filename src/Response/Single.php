@@ -40,6 +40,16 @@ class Single extends Response
     }
 
     /**
+     * Returns Connection access points
+     *
+     * @return \Clusterpoint\Response\Single
+     */
+    public function getConnection()
+    {
+        return $this->connection;
+    }
+
+    /**
      * Save this documents with all changes made to it, to the database.
      *
      * @return \Clusterpoint\Response\Single

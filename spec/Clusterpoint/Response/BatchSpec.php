@@ -3,7 +3,7 @@ namespace spec\Clusterpoint\Response;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Clusterpoint\Helper\Test\ConnectionFaker;
+use Clusterpoint\Testing\ConnectionFaker;
 
 /**
  * Clusterpoint/Response/Batch Unit Testing
