@@ -3,7 +3,8 @@ namespace Clusterpoint\Transport;
 
 use Clusterpoint\Response\Batch;
 use Clusterpoint\Response\Single;
-use Clusterpoint\ConnectionInterface;
+use Clusterpoint\Contracts\ConnectionInterface;
+use Clusterpoint\Contracts\TransportInterface;
 use Clusterpoint\Testing\ConnectionFaker;
 
 /**
@@ -22,7 +23,7 @@ class Rest implements TransportInterface
      * Executes Query.
      *
      * @param  \stdClass $connection
-     * @return \Clusterpoint\Response\Single|\Clusterpoint\Response\Batch|string|\Clusterpoint\Helper\Test\ConnectionFaker
+     * @return \Clusterpoint\Response\Single|\Clusterpoint\Response\Batch|string
      */
     public static function execute(ConnectionInterface $connection)
     {

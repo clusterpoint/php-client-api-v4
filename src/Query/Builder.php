@@ -3,7 +3,7 @@ namespace Clusterpoint\Query;
 
 use Closure;
 use Clusterpoint\Instance\Service;
-use Clusterpoint\ConnectionInterface;
+use Clusterpoint\Contracts\ConnectionInterface;
 
 /**
  *

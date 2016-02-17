@@ -1,6 +1,7 @@
 <?php 
 namespace Clusterpoint\Query;
 
+use Clusterpoint\Contracts\ScopeInterface;
 /**
  *
  * Holds data for query exectuion.

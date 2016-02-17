@@ -1,7 +1,7 @@
 <?php 
 namespace Clusterpoint\Standart;
 
-use Clusterpoint\ConnectionInterface;
+use Clusterpoint\Contracts\ConnectionInterface;
 
 /**
  *

@@ -2,7 +2,7 @@
 namespace Clusterpoint\Instance;
 
 use Exception;
-use Clusterpoint\ConnectionInterface;
+use Clusterpoint\Contracts\ConnectionInterface;
 use Clusterpoint\Query\Scope as QueryScope;
 use Clusterpoint\Query\Builder as QueryBuilder;
 use Clusterpoint\Exceptions\ClusterpointException;

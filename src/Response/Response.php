@@ -3,7 +3,9 @@ namespace Clusterpoint\Response;
 
 use Iterator;
 use Countable;
-use Clusterpoint\ConnectionInterface;
+use Clusterpoint\Testing\ConnectionFaker;
+use Clusterpoint\Contracts\ResponseInterface;
+use Clusterpoint\Contracts\ConnectionInterface;
 use Clusterpoint\Exceptions\ClusterpointException;
 
 /**
@@ -41,20 +43,23 @@ class Response implements Iterator, Countable, ResponseInterface
      */
     public function __construct($raw_response, ConnectionInterface $connection)
     {
-        $this->scope = new \stdClass;
         $response = json_decode($raw_response);
         $this->scope = new Scope($response);
         $this->scope->rawResponse = $raw_response;
         $this->scope->query = isset($connection->query) ? $connection->query : null;
         $this->connection = clone($connection);
-        $this->connection->resetSelf();
         if ($this instanceof Single) {
+            $this->scope->retrieved = false;
             $this->scope->results = isset($response->results) ? isset($response->results[0]) ? (array)$response->results[0] : array() : array();
-            $this->_id = isset($this->scope->results["_id"]) ? $this->scope->results["_id"] : false;
+            if($connection->method=="GET") {
+                $this->scope->retrieved = true;
+                $this->_id = count($this->scope->results)>0 ? substr($connection->action, 1, -1) : false;
+            }
         }
+        $this->connection->resetSelf();
         if (isset($this->scope->error)) {
             foreach ($this->scope->error as $error) {
-                if (!$connection instanceof \Clusterpoint\Testing\ConnectionFaker) {
+                if (!$connection instanceof ConnectionFaker) {
                     throw new ClusterpointException($error->message, $error->code);
                 }
             }

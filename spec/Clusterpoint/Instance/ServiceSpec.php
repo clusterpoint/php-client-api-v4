@@ -184,7 +184,7 @@ class ServiceSpec extends ObjectBehavior
         $response->executedQuery()->shouldReturn('SELECT * FROM database LIMIT 0, 1');
         $response->shouldReturnAnInstanceOf('\Clusterpoint\Response\Single');
         $response->shouldBeAnInstanceOf('\Clusterpoint\Response\Response');
-        $response->shouldImplement('\Clusterpoint\Response\ResponseInterface');
+        $response->shouldImplement('\Clusterpoint\Contracts\ResponseInterface');
     }
 
     // Get
@@ -195,7 +195,7 @@ class ServiceSpec extends ObjectBehavior
         $response->executedQuery()->shouldReturn('SELECT * FROM database LIMIT 0, 20');
         $response->shouldReturnAnInstanceOf('\Clusterpoint\Response\Batch');
         $response->shouldBeAnInstanceOf('\Clusterpoint\Response\Response');
-        $response->shouldImplement('\Clusterpoint\Response\ResponseInterface');
+        $response->shouldImplement('\Clusterpoint\Contracts\ResponseInterface');
     }
 
     // Replace

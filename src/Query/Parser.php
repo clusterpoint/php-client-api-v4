@@ -1,9 +1,12 @@
 <?php 
 namespace Clusterpoint\Query;
 
+use Clusterpoint\Helper\Key;
+use Clusterpoint\Helper\Raw;
+use Clusterpoint\Query\Scope;
 use Clusterpoint\Transport\Rest as DataLayer;
 use Clusterpoint\Exceptions\ClusterpointException;
-
+use Clusterpoint\Contracts\ConnectionInterface;
 /**
  *
  * Parses Query Builder Requests.
@@ -26,7 +29,7 @@ class Parser
     {
         if (gettype($select)=="array") {
             foreach ($select as $key => $field) {
-                if ($field instanceof \Clusterpoint\Helper\Key) {
+                if ($field instanceof Key) {
                     $alias =  '"'.$field.'"';
                     $field =  self::field($field);
                     $select[$key] = "{$field} as {$alias}";
@@ -59,10 +62,10 @@ class Parser
             $value = $operator;
             $operator = '==';
         }
-        if ($field instanceof \Clusterpoint\Helper\Key) {
+        if ($field instanceof Key) {
             $field =  self::field("{$field}");
         }
-        if (!($value instanceof \Clusterpoint\Helper\Raw)) {
+        if (!($value instanceof Raw)) {
             $value =  json_encode($value);
         }
         return "{$logical} {$field}{$operator}{$value} ";
@@ -112,10 +115,10 @@ class Parser
         if (!($order=='ASC' || $order=='DESC')) {
             throw new ClusterpointException("\"->order()\" function: ordering should be DESC or ASC.", 9002);
         }
-        if (!(gettype($field)=="string" || $field instanceof \Clusterpoint\Helper\Key || $field instanceof \Clusterpoint\Helper\Raw)) {
+        if (!(gettype($field)=="string" || $field instanceof Key || $field instanceof Raw)) {
             throw new ClusterpointException("\"->order()\" function: passed field selector is not in valid format.", 9002);
         }
-        if ($field instanceof \Clusterpoint\Helper\Key) {
+        if ($field instanceof Key) {
             $field =  self::field("{$field}");
         }
         return "{$field} {$order}";
@@ -129,10 +132,10 @@ class Parser
      */
     public static function groupBy($field)
     {
-        if (!(gettype($field)=="string" || $field instanceof \Clusterpoint\Helper\Key || $field instanceof \Clusterpoint\Helper\Raw)) {
+        if (!(gettype($field)=="string" || $field instanceof Key || $field instanceof Raw)) {
             throw new ClusterpointException("\"->group()\" function: passed field selector is not in valid format.", 9002);
         }
-        if ($field instanceof \Clusterpoint\Helper\Key) {
+        if ($field instanceof Key) {
             $field =  self::field("{$field}");
         }
         return "{$field}";
@@ -163,7 +166,7 @@ class Parser
      * @param  bool $multiple
      * @return \Clusterpoint\Response\Batch
      */
-    public static function get(\Clusterpoint\Query\Scope $scope, $connection, $multiple, $return = false)
+    public static function get(Scope $scope, $connection, $multiple, $return = false)
     {
         $connection->query = $scope->prepend.'SELECT '.$scope->select.' FROM '.$connection->db.' ';
         if ($scope->where!='') {
@@ -211,6 +214,7 @@ class Parser
      */
     public static function delete($id = null, $connection)
     {
+        var_dump($id);
         if (gettype($id)!="string" && !is_numeric($id)) {
             throw new ClusterpointException("\"->delete()\" function: \"_id\" is not in valid format.", 9002);
         }
@@ -424,7 +428,7 @@ class Parser
      * @param  \stdClass $connection
      * @return mixed
      */
-    public static function sendQuery(\Clusterpoint\ConnectionInterface $connection)
+    public static function sendQuery(ConnectionInterface $connection)
     {
         $response = DataLayer::execute($connection);
         $connection->resetSelf();

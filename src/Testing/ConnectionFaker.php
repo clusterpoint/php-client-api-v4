@@ -1,7 +1,7 @@
 <?php 
 namespace Clusterpoint\Testing;
 
-use Clusterpoint\ConnectionInterface;
+use Clusterpoint\Contracts\ConnectionInterface;
 
 /**
  *
@@ -81,6 +81,8 @@ class ConnectionFaker implements ConnectionInterface
         $this->password = "password";
         $this->debug = true;
         $this->query = null;
+        $this->method = "GET";
+        $this->action = "[id_string]";
     }
 
     public function resetSelf()

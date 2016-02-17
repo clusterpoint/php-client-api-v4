@@ -2,7 +2,8 @@
 namespace Clusterpoint\Response;
 
 use Clusterpoint\Query\Parser as QueryParser;
-
+use Clusterpoint\Testing\ConnectionFaker;
+use Clusterpoint\Exceptions\ClusterpointException;
 /**
  *
  * Extends Response class, provides access to results of single document.
@@ -20,7 +21,7 @@ class Single extends Response
      *
      * @var string
      */
-    protected $_id;
+    protected $_id = null;
 
     /**
      * Holds connection access points.
@@ -28,6 +29,29 @@ class Single extends Response
      * @var object
      */
     protected $connection;
+
+    /**
+     * Checks if delete and save methods can be accessed.
+     *
+     * @param  string  $method
+     * @param  array  $arguments
+     * @return $this
+     */
+    public function __call($method, $arguments)
+    {
+        $methods = ["delete", "save"];
+        if (!$this->connection instanceof ConnectionFaker) {
+            if (!in_array($method, $methods)) {
+                throw new ClusterpointException("\"->{$method}()\" method: does not exist.", 9002);
+                return $this;
+            }
+            if (!$this->scope->retrieved) {
+                throw new ClusterpointException("\"->{$method}()\" method: can be accessed only to document retrieved by \"find()\" method.", 9002);
+                return $this;
+            }
+        }
+        return call_user_func_array([$this, $method], $arguments);
+    }
 
     /**
      * Reading data from inaccessible properties.
@@ -64,7 +88,7 @@ class Single extends Response
      *
      * @return \Clusterpoint\Response\Single
      */
-    public function save()
+    protected function save()
     {
         return QueryParser::replace($this->_id, $this, $this->connection);
     }
@@ -74,7 +98,7 @@ class Single extends Response
      *
      * @return \Clusterpoint\Response\Single
      */
-    public function delete()
+    protected function delete()
     {
         return QueryParser::delete($this->_id, $this->connection);
     }
