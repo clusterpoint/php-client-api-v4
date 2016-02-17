@@ -3,7 +3,7 @@ namespace Clusterpoint\Response;
 
 class Scope
 {
-     /**
+    /**
      * Holds rawResponse.
      *
      * @var string

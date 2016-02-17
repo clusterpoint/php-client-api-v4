@@ -6,7 +6,6 @@ use Clusterpoint\Exceptions\ClusterpointException;
 
 class Parser
 {
-
     /**
      * Pass back SELECT clause string to set in scope.
      *

@@ -1,5 +1,6 @@
 <?php 
 namespace Clusterpoint\Testing;
+
 use Clusterpoint\ConnectionInterface;
 
 class ConnectionFaker implements ConnectionInterface
@@ -72,6 +73,7 @@ class ConnectionFaker implements ConnectionInterface
         $this->query = null;
     }
 
-    public function resetSelf(){
+    public function resetSelf()
+    {
     }
 }

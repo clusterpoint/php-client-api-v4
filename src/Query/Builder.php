@@ -7,7 +7,6 @@ use Clusterpoint\ConnectionInterface;
 
 abstract class Builder
 {
-
     /**
      * The stdClass with scope for query parametrs.
      *
@@ -49,7 +48,6 @@ abstract class Builder
             $logical = (strlen($this->scope->where) <=1 || substr($this->scope->where, -1)=='(') ? '' : $logical;
             $this->scope->where .= Parser::where($field, $operator, $value, $logical);
         }
-        
         return $this;
     }
 
@@ -75,7 +73,6 @@ abstract class Builder
     protected function select($select = null)
     {
         $this->scope->select = Parser::select($select);
-       
         return $this;
     }
 
@@ -88,7 +85,6 @@ abstract class Builder
     protected function limit($limit)
     {
         $this->scope->limit = Parser::limit($limit);
-
         return $this;
     }
 
@@ -101,7 +97,6 @@ abstract class Builder
     protected function offset($offset)
     {
         $this->scope->offset = Parser::offset($offset);
-       
         return $this;
     }
 
@@ -115,7 +110,6 @@ abstract class Builder
     protected function orderBy($field, $order = null)
     {
         $this->scope->orderBy[] = Parser::orderBy($field, $order);
-
         return $this;
     }
 
@@ -128,7 +122,6 @@ abstract class Builder
     protected function groupBy($field)
     {
         $this->scope->groupBy[] = Parser::groupBy($field);
-        
         return $this;
     }
 
@@ -141,7 +134,6 @@ abstract class Builder
     protected function prepend($prepend)
     {
         $this->scope->prepend = $prepend.' ';
-
         return $this;
     }
 
@@ -165,7 +157,6 @@ abstract class Builder
     {
         $this->scope->limit = 1;
         $this->scope->offset = 0;
-
         return $this->get(null);
     }
 
@@ -178,7 +169,6 @@ abstract class Builder
     protected function get($multiple = true)
     {
         $scope = $this->scope;
-        
         return Parser::get($scope, $this->connection, $multiple);
     }
 
@@ -260,7 +250,6 @@ abstract class Builder
         $transaction_id = Parser::beginTransaction($this->connection);
         $connection = $this->connection;
         $connection->transactionId = $transaction_id;
-
         return new Service($connection);
     }
 
@@ -292,7 +281,6 @@ abstract class Builder
     public function resetQuery()
     {
         $this->scope->resetSelf();
-
         return $this;
     }
 

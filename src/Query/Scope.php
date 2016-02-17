@@ -67,7 +67,8 @@ class Scope implements ScopeInterface
      *
      * @return void
      */
-    public function resetSelf() {
+    public function resetSelf()
+    {
         $this->where = '';
         $this->select = '*';
         $this->limit = 20;

@@ -29,7 +29,7 @@ class Response implements Iterator, Countable, ResponseInterface
      * @param  object $connection
      * @return void
      */
-    public function __construct($raw_response,ConnectionInterface $connection)
+    public function __construct($raw_response, ConnectionInterface $connection)
     {
         $this->scope = new \stdClass;
         $response = json_decode($raw_response);
@@ -44,7 +44,7 @@ class Response implements Iterator, Countable, ResponseInterface
         }
         if (isset($this->scope->error)) {
             foreach ($this->scope->error as $error) {
-                if(!$connection instanceof \Clusterpoint\Testing\ConnectionFaker){
+                if (!$connection instanceof \Clusterpoint\Testing\ConnectionFaker) {
                     throw new ClusterpointException($error->message, $error->code);
                 }
             }

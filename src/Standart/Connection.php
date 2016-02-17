@@ -1,5 +1,6 @@
 <?php 
 namespace Clusterpoint\Standart;
+
 use Clusterpoint\ConnectionInterface;
 
 class Connection implements ConnectionInterface
@@ -61,7 +62,7 @@ class Connection implements ConnectionInterface
      * @return void
      */
     public function __construct($connection)
-    {   
+    {
         $connection = $this->checkSource($connection);
         $this->parseConfig($connection);
     }
@@ -73,7 +74,7 @@ class Connection implements ConnectionInterface
      * @return void
      */
     public function resetSelf()
-    {   
+    {
         unset($this->action);
         unset($this->method);
         $this->query = null;
@@ -85,7 +86,8 @@ class Connection implements ConnectionInterface
      * @param  array  $connection
      * @return void
      */
-    private function parseConfig($connection) {  
+    private function parseConfig($connection)
+    {
         $this->debug = false;
         $allowed_keys = array_keys(get_object_vars($this));
         foreach ($connection as $key => $value) {
@@ -103,8 +105,9 @@ class Connection implements ConnectionInterface
      * @param  array  $allowed_keys
      * @return void
      */
-    private function setParam($key, $value, $allowed_keys) {  
-        if(in_array($key, $allowed_keys)) {
+    private function setParam($key, $value, $allowed_keys)
+    {
+        if (in_array($key, $allowed_keys)) {
             $this->{$key} = $value;
         }
     }
@@ -115,7 +118,8 @@ class Connection implements ConnectionInterface
      * @param  mixed  $connection
      * @return array
      */
-    private function checkSource($connection) {  
+    private function checkSource($connection)
+    {
         if (gettype($connection)=="string") {
             $config = include(__DIR__.'/../../../../../clusterpoint.php');
             $connection = $config[$connection];
@@ -128,7 +132,8 @@ class Connection implements ConnectionInterface
      *
      * @return void
      */
-    private function camelCase($val) {  
-        return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $val))));  
-    }  
+    private function camelCase($val)
+    {
+        return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $val))));
+    }
 }
