@@ -8,17 +8,16 @@ use Clusterpoint\Exceptions\ClusterpointException;
 use Clusterpoint\Standart\Connection as StandartConnection;
 
 /**
- * Clusterpoint PHP Client API for DB version 4.*
  *
- * PHP version 5.4
+ * Client for communicating between developer and our service.
+ * Holds helper function raw(), field(), escape().
+ * Resolves dependencies and starts API workflow.
  *
- * @category   Library
- * @package    Clusterpoint PHP Client API v4
+ * @category   Clusterpoint 4.0 PHP Client API
+ * @package    clusterpoint/php-client-api-v4
+ * @copyright  Copyright (c) 2016 Clusterpoint (http://www.clusterpoint.com)
  * @author     Marks Gerasimovs <marks.gerasimovs@clusterpoint.com>
- * @copyright  2016 Clusterpoint Ltd.
- * @license    MIT
- * @version    4.0.2
- * @link       https://clusterpoint.com/docs/api/4/php
+ * @license    http://opensource.org/licenses/MIT    MIT
  */
 class Client
 {

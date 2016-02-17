@@ -7,6 +7,16 @@ use Clusterpoint\Query\Scope as QueryScope;
 use Clusterpoint\Query\Builder as QueryBuilder;
 use Clusterpoint\Exceptions\ClusterpointException;
 
+/**
+ *
+ * Main Service class, holds meta data and executes query builder functions.
+ *
+ * @category   Clusterpoint 4.0 PHP Client API
+ * @package    clusterpoint/php-client-api-v4
+ * @copyright  Copyright (c) 2016 Clusterpoint (http://www.clusterpoint.com)
+ * @author     Marks Gerasimovs <marks.gerasimovs@clusterpoint.com>
+ * @license    http://opensource.org/licenses/MIT    MIT
+ */
 class Service extends QueryBuilder
 {
     /**

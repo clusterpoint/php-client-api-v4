@@ -6,6 +6,16 @@ use Countable;
 use Clusterpoint\ConnectionInterface;
 use Clusterpoint\Exceptions\ClusterpointException;
 
+/**
+ *
+ * Response Class, holds common behaivior of Batch and Single Classes.
+ *
+ * @category   Clusterpoint 4.0 PHP Client API
+ * @package    clusterpoint/php-client-api-v4
+ * @copyright  Copyright (c) 2016 Clusterpoint (http://www.clusterpoint.com)
+ * @author     Marks Gerasimovs <marks.gerasimovs@clusterpoint.com>
+ * @license    http://opensource.org/licenses/MIT    MIT
+ */
 class Response implements Iterator, Countable, ResponseInterface
 {
     /**

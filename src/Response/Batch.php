@@ -3,6 +3,16 @@ namespace Clusterpoint\Response;
 
 use ArrayAccess;
 
+/**
+ *
+ * Extends Response class, provides access to results of multiple documents.
+ *
+ * @category   Clusterpoint 4.0 PHP Client API
+ * @package    clusterpoint/php-client-api-v4
+ * @copyright  Copyright (c) 2016 Clusterpoint (http://www.clusterpoint.com)
+ * @author     Marks Gerasimovs <marks.gerasimovs@clusterpoint.com>
+ * @license    http://opensource.org/licenses/MIT    MIT
+ */
 class Batch extends Response implements  ArrayAccess
 {
     /**
