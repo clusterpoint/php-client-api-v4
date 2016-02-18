@@ -18,10 +18,8 @@ $versions = GitVersionCollection::create($dir)
 return new Sami($iterator, array(
     'title'                => 'Clusterpoint 4.0 PHP Client API',
     'versions'             => $versions,
-    'build_dir'            => __DIR__.'/docapi/build/%version/',
-    'cache_dir'            => __DIR__.'/docapi/cache/%version/',
+    'build_dir'            => __DIR__.'/docapi/build/%version%',
+    'cache_dir'            => __DIR__.'/docapi/cache/%version%',
     'default_opened_level' => 2,
-    'remote_repository'    => new GitHubRemoteRepository('clusterpoint/php-client-api-v4', '../'),
-    'simulate_namespaces' => true
-
+    'remote_repository'    => new GitHubRemoteRepository('clusterpoint/php-client-api-v4', '../')
 ));
