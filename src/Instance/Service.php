@@ -53,6 +53,7 @@ class Service extends QueryBuilder
             if ($this->connection->debug===true || strtolower($this->connection->debug)==='true') {
                 throw new ClusterpointException($e->getMessage(), $e->getCode());
             }
+            $return = null;
         }
         return $return;
     }
