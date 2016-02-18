@@ -50,8 +50,8 @@ class Service extends QueryBuilder
             if (isset($this->connection->transactionId)) {
                 $this->rollback();
             }
-            if ($this->connection->debug==true) {
-                echo $e;
+            if ($this->connection->debug===true || strtolower($this->connection->debug)==='true') {
+                throw new ClusterpointException($e->getMessage(), $e->getCode());
             }
         }
         return $return;
