@@ -2,9 +2,8 @@
 composer.lock
 .DS_Store
 composer.phar
-config.php
 phpcompatinfo-5.0.0.phar
 phpDocumentor.phar
-sami.phar
-sami.config
+/phpspec/sami.phar
+/phpspec/docapi
 /.idea
