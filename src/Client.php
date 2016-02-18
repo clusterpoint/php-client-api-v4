@@ -80,10 +80,46 @@ class Client
      * @param  string  $db
      * @return \Clusterpoint\Instance\Service
      */
-    public function database($db)
+    protected function database($db)
     {
         $connection = $this->connection;
         $connection->db = $db;
         return new Service($connection);
+    }
+
+    /**
+     * Database method alias.
+     *
+     * @param  string  $db
+     * @return \Clusterpoint\Instance\Service
+     */
+    protected function db($db)
+    {
+        return $this->database($db);
+    }
+
+    /**
+     * Wraps all method use in try - catch.
+     *
+     * @param  string  $method
+     * @param  array  $arguments
+     * @return $this
+     */
+    public function __call($method, $arguments)
+    {
+        return call_user_func_array([$this, $method], $arguments);
+    }
+
+    /**
+     * Handle dynamic static method calls into the method.
+     *
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return mixed
+     */
+    public static function __callStatic($method, $parameters)
+    {
+        $instance = new static;
+        return call_user_func_array([$instance, $method], $parameters);
     }
 }

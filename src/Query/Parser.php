@@ -214,7 +214,6 @@ class Parser
      */
     public static function delete($id = null, $connection)
     {
-        var_dump($id);
         if (gettype($id)!="string" && !is_numeric($id)) {
             throw new ClusterpointException("\"->delete()\" function: \"_id\" is not in valid format.", 9002);
         }

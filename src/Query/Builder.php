@@ -303,4 +303,12 @@ abstract class Builder
     {
         return Parser::get($this->scope, $this->connection, true, true);
     }
+    /**
+     * Get all available Methods
+     *
+     * @return $scope
+     */
+    public function availableMethods(){
+        return get_class_methods($this);
+    }
 }

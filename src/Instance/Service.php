@@ -42,7 +42,7 @@ class Service extends QueryBuilder
     {
         $return = null;
         try {
-            if (!in_array($method, get_class_methods('\Clusterpoint\Query\Builder'))) {
+            if (!in_array($method, $this->availableMethods())) {
                 throw new ClusterpointException("\"->{$method}()\" method: does not exist.", 9002);
             }
             $return = call_user_func_array([$this, $method], $arguments);
