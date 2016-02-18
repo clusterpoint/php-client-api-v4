@@ -4,6 +4,6 @@ composer.lock
 composer.phar
 phpcompatinfo-5.0.0.phar
 phpDocumentor.phar
-phpspec/sami.phar
-phpspec/docapi
+/phpspec/sami.phar
+/phpspec/docapi
 /.idea
