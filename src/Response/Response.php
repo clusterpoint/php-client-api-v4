@@ -60,7 +60,7 @@ class Response implements Iterator, Countable, ResponseInterface
         if (isset($this->scope->error)) {
             foreach ($this->scope->error as $error) {
                 if (!$connection instanceof ConnectionFaker) {
-                    throw new ClusterpointException($error->message, $error->code);
+                    throw new ClusterpointException($error->message, isset($error->code) ? $error->code : 2417 );
                 }
             }
         }
