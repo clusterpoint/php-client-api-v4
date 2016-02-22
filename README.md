@@ -48,6 +48,10 @@ Documentation for the API can be found on the [Clusterpoint website](https://www
 ```PHP
 <?php
 require 'vendor/autoload.php';
+// or
+// require 'api_install_folder/Clusterpoint.php'
+// if you installed api without composer
+
 use Clusterpoint\Client;
 
 //Initialize the service
