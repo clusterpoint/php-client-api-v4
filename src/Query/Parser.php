@@ -223,7 +223,7 @@ class Parser
             throw new ClusterpointException("\"->delete()\" function: \"_id\" is not in valid format.", 9002);
         }
         $connection->method = 'DELETE';
-        $connection->action = '['.$id.']';
+        $connection->action = '['.urlencode($id).']';
         return self::sendQuery($connection);
     }
 
