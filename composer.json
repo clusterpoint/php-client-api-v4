@@ -1,30 +1,38 @@
 {
-    "name": "clusterpoint/php-client-api-v4",
-    "type": "library",
-    "license": "MIT",
-    "version": "4.0.2",
-    "keywords": ["clusterpoint","api","database","nosql","php","jssql"],
-    "homepage": "https://www.clusterpoint.com/",
-    "require": {
-      "php": ">=5.4",
-      "ext-curl": "*"
+  "name": "clusterpoint/php-client-api-v4",
+  "type": "library",
+  "license": "MIT",
+  "version": "4.0.3",
+  "keywords": [
+    "clusterpoint",
+    "api",
+    "database",
+    "nosql",
+    "php",
+    "jssql"
+  ],
+  "homepage": "https://www.clusterpoint.com/",
+  "require": {
+    "php": ">=5.4",
+    "ext-curl": "*"
+  },
+  "require-dev": {
+    "php": ">=5.5",
+    "phpspec/phpspec": "~2.0"
+  },
+  "authors": [
+    {
+      "name": "Marks Gerasimovs",
+      "email": "marks.gerasimovs@clusterpoint.com"
     },
-    "require-dev": {
-        "php": ">=5.5",
-        "phpspec/phpspec": "~2.0"
-    },
-    "authors": [
-      {
-        "name": "Marks Gerasimovs",
-        "email": "marks.gerasimovs@clusterpoint.com"
-      }, {
-        "name": "Clusterpoint",
-        "email": "info@clusterpoint.com"
-      }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Clusterpoint\\": "src/"
-        }
+    {
+      "name": "Clusterpoint",
+      "email": "support@clusterpoint.com"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Clusterpoint\\": "src/"
+    }
+  }
 }
