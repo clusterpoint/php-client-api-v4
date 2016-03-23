@@ -48,26 +48,25 @@ Documentation for the API can be found on the [Clusterpoint website](https://www
 ```PHP
 <?php
 require 'vendor/autoload.php';
-// or
+// or if you installed api without composer:
 // require 'api_install_folder/Clusterpoint.php'
-// if you installed api without composer
 
 use Clusterpoint\Client;
 
 //Initialize the service
 $cp = new Client([
-    'host'      => 'https://api-eu.clusterpoint.com/v4',
-    'account_id'  => '1',
-    'username'  => 'root',
-    'password'  => 'password',
-    'debug'   => 'true',
+	'host' => 'https://api-eu.clusterpoint.com/v4',
+	'account_id' => '1',
+	'username' => 'root',
+	'password' => 'password',
+	'debug' => true,
 ]);
 
-// Set the database to work with to initalize the query builder for it.
-$db = $cp->database("bikes");
+// Set the database.collection to initalize the query builder for it.
+$bikes = $cp->database("shop.bikes");
 
 // Build your query
-$results = $db->where('color', 'red')
+$results = $bikes->where('color', 'red')
 	->where('availability', true)
 	->limit(5)
 	->groupBy('category')
@@ -83,7 +82,7 @@ echo "First bike price: ".$results[0]->price;
 <a name="bugs"></a>
 ## Bugs and Vulnerabilities
 
-If you discover a vulnerability or bug within our API or database functionality, please send an e-mail to our support team at info@clusterpoint.com.
+If you discover a vulnerability or bug within our API or database functionality, please send an e-mail to our support team at support@clusterpoint.com.
 
 <a name="license"></a>
 ## License
