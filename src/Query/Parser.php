@@ -168,7 +168,12 @@ class Parser
      */
     public static function get(Scope $scope, $connection, $multiple, $return = false)
     {
-        $connection->query = $scope->prepend.'SELECT '.$scope->select.' FROM '.$connection->db.' ';
+        $from = $connection->db;
+        if (strpos($from, '.') !== false) {
+            $from = end(explode('.', $connection->db));
+        }
+        
+        $connection->query = $scope->prepend.'SELECT '.$scope->select.' FROM '.$from.' ';
         if ($scope->where!='') {
             $connection->query .= 'WHERE'.$scope->where;
         }
