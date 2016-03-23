@@ -101,6 +101,10 @@ class Connection implements ConnectionInterface
         $this->debug = false;
         $allowed_keys = array_keys(get_object_vars($this));
         foreach ($connection as $key => $value) {
+            // Check if host has a trailing slash and remove it
+            if ($key === 'host' && substr($value, -1) === '/') {
+            	$value = substr($value, 0, -1);
+            }
             $this->setParam($this->camelCase($key), $value, $allowed_keys);
         }
         $this->transactionId = null;
