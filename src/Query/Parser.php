@@ -154,7 +154,7 @@ class Parser
             throw new ClusterpointException("\"->find()\" function: \"_id\" is not in valid format.", 9002);
         }
         $connection->method = 'GET';
-        $connection->action = '['.$id.']';
+        $connection->action = '['.urlencode($id).']';
         return self::sendQuery($connection);
     }
 
@@ -288,7 +288,7 @@ class Parser
     public static function update($id, $document, $connection)
     {
         $connection->method = 'PATCH';
-        $connection->action = '['.$id.']';
+        $connection->action = '['.urlencode($id).']';
         switch (gettype($document)) {
             case "string":
                 $connection->query = $document;
@@ -369,7 +369,7 @@ class Parser
     {
         $connection->query = self::singleDocument($document);
         $connection->method = 'PUT';
-        $connection->action = '['.$id.']';
+        $connection->action = '['.urlencode($id).']';
         return self::sendQuery($connection);
     }
 
