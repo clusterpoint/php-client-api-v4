@@ -26,6 +26,7 @@ class Client
      *
      * @var \stdClass
      */
+    protected $constructConnections;
     protected $connection;
 
     /**
@@ -36,6 +37,7 @@ class Client
      */
     public function __construct($connection = "default")
     {
+        $this->constructConnections = $connection;
         $this->connection = class_exists("Clusterpoint\Connection") ? new Connection($connection) : new StandartConnection($connection);
     }
 
@@ -82,8 +84,8 @@ class Client
      */
     protected function database($db)
     {
-        $connection = $this->connection;
-        $connection->db = $db;
+        $this->constructConnections = $connection;
+        $connection = class_exists("Clusterpoint\Connection") ? new Connection($this->constructConnections) : new StandartConnection($this->constructConnections);
         return new Service($connection);
     }
 
