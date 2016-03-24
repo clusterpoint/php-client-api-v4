@@ -170,7 +170,8 @@ class Parser
     {
         $from = $connection->db;
         if (strpos($from, '.') !== false) {
-            $from = end(explode('.', $connection->db));
+            $tmp = explode('.', $connection->db);
+            $from = end($tmp);
         }
         
         $connection->query = $scope->prepend.'SELECT '.$scope->select.' FROM '.$from.' ';
