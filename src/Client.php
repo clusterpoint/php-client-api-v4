@@ -84,6 +84,9 @@ class Client
      */
     protected function database($db)
     {
+        $connection = $this->connection;
+        $connection->db = $db;
+
         $this->constructConnections = $connection;
         $connection = class_exists("Clusterpoint\Connection") ? new Connection($this->constructConnections) : new StandartConnection($this->constructConnections);
         return new Service($connection);
