@@ -39,7 +39,7 @@ class Single extends Response
      */
     public function __call($method, $arguments)
     {
-        $methods = ["delete", "save"];
+        $methods = array("delete", "save");
         if (!$this->connection instanceof ConnectionFaker) {
             if (!in_array($method, $methods)) {
                 throw new ClusterpointException("\"->{$method}()\" method: does not exist.", 9002);
@@ -50,7 +50,7 @@ class Single extends Response
                 return $this;
             }
         }
-        return call_user_func_array([$this, $method], $arguments);
+        return call_user_func_array(array($this, $method), $arguments);
     }
 
     /**

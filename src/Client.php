@@ -112,7 +112,7 @@ class Client
      */
     public function __call($method, $arguments)
     {
-        return call_user_func_array([$this, $method], $arguments);
+        return call_user_func_array(array($this, $method), $arguments);
     }
 
     /**
@@ -125,6 +125,6 @@ class Client
     public static function __callStatic($method, $parameters)
     {
         $instance = new static;
-        return call_user_func_array([$instance, $method], $parameters);
+        return call_user_func_array(array($instance, $method), $parameters);
     }
 }

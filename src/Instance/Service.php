@@ -45,7 +45,7 @@ class Service extends QueryBuilder
             if (!in_array($method, $this->availableMethods())) {
                 throw new ClusterpointException("\"->{$method}()\" method: does not exist.", 9002);
             }
-            $return = call_user_func_array([$this, $method], $arguments);
+            $return = call_user_func_array(array($this, $method), $arguments);
         } catch (Exception $e) {
             if (isset($this->connection->transactionId)) {
                 $this->rollback();
