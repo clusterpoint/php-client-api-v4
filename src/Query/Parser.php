@@ -288,6 +288,12 @@ class Parser
      */
     public static function update($id, $document, $connection)
     {
+        $from = $connection->db;
+        if (strpos($from, '.') !== false) {
+            $tmp = explode('.', $connection->db);
+            $from = end($tmp);
+        }
+        
         $connection->method = 'PATCH';
         $connection->action = '['.urlencode($id).']';
         switch (gettype($document)) {
@@ -309,7 +315,7 @@ class Parser
                 }
                 $connection->method = 'POST';
                 $connection->action = '/_query';
-                $connection->query = 'UPDATE '.$connection->db.'["'.$id.'"] SET '.implode(", ", $set_array);
+                $connection->query = 'UPDATE '.$from.'["'.$id.'"] SET '.implode(", ", $set_array);
                 break;
             default:
                 throw new ClusterpointException("\"->update()\" function: parametr passed ".json_encode(self::escape_string($document))." is not in valid format.", 9002);
