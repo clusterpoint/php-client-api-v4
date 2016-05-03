@@ -29,7 +29,7 @@ class Rest implements TransportInterface
     {
         if ($connection->debug === true) {
         	echo "URL: ".$connection->host.'/'.$connection->accountId.'/'.$connection->db.''.$connection->action.(isset($connection->transactionId) ? '?transaction_id='.$connection->transactionId : '')."\r\n";
-        	echo "USER:PWD: ".$connection->username.":".$connection->password."\r\n";
+        	echo "USER:PWD: ".$connection->username.":".str_repeat('X',strlen($connection->password))."\r\n";
         	echo "METHOD: ".$connection->method."\r\n";
         	echo "QUERY: ".(isset($connection->query) ? $connection->query : null)."\r\n";
         }
