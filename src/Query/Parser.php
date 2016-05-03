@@ -242,6 +242,11 @@ class Parser
         }
         $connection->method = 'DELETE';
         $connection->action = '';
+        
+        // force strings! REST hates DELETE with integers for now... 
+        foreach ($ids as &$id) {
+            $id = (string)$id;
+        }
         $connection->query = json_encode($ids);
         return self::sendQuery($connection);
     }

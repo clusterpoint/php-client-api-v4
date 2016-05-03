@@ -26,13 +26,14 @@ $authorsCollection = $cp->database('bookshelf.authors');
 
 
 // try to remove documents just for the purpose of this example
-try{
-	$booksCollection->delete(1);
-	$booksCollection->delete(2);
-	$authorsCollection->delete(1);
-	$authorsCollection->delete(2);
+try {
+	$booksCollection->deleteMany([1, 2]);
+} catch (Exception $e) {
+	// documents did not exist
 }
-catch (Exception $e){
+try {
+	$authorsCollection->deleteMany([1, 2]);
+} catch (Exception $e) {
 	// documents did not exist
 }
 
@@ -69,9 +70,9 @@ $authorsCollection->insertMany($documents);
 
 // list all authors
 $authors = $authorsCollection->get();
-echo $authors->executedQuery()."<br/>\r\n"; // JS/SQL:  SELECT * FROM authors LIMIT 0, 20
+echo $authors->executedQuery() . "\r\n"; // JS/SQL:  SELECT * FROM authors LIMIT 0, 20
 foreach ($authors as $author) {
-	echo $author->name . '<br/>'."\r\n";
+	echo $author->name . '' . "\r\n";
 }
 
 // list books with authors using JOIN (currently you have to use raw() function for JOINS)
@@ -79,7 +80,7 @@ $books = $booksCollection->raw('SELECT books.title, author.name
         FROM books
         LEFT JOIN authors AS author ON author._id == books.author_id');
 foreach ($books as $book) {
-	echo $book->{'books.title'} . ' (' . $book->{'author.name'} . ')<br/>'."\r\n";
+	echo $book->{'books.title'} . ' (' . $book->{'author.name'} . ')' . "\r\n";
 }
 
 
@@ -91,4 +92,4 @@ $results = $booksCollection->select(['name', 'color', 'price', 'category'])
 	->orderBy('price')
 	->limit(5);
 
-echo $results->getQuery()."<br/>\r\n";
+echo $results->getQuery() . "\r\n";
