@@ -12,10 +12,10 @@ $config = array(
 	'account_id' => 'ACCOUNT_ID',
 	'username' => 'USERNAME',
 	'password' => 'PASSWORD',
-	'debug' => true
+	'debug' => false
 );
-$cp = new Clusterpoint\Client($config);
 
+$cp = new Clusterpoint\Client($config);
 // In this example we will use a simple database named "bookshelf" which consists of books and book authors.
 
 // the select a collection to work with
@@ -23,6 +23,18 @@ $booksCollection = $cp->database('bookshelf.books');
 
 // you can use $cp instance multiple times to access any collection
 $authorsCollection = $cp->database('bookshelf.authors');
+
+
+// try to remove documents just for the purpose of this example
+try{
+	$booksCollection->delete(1);
+	$booksCollection->delete(2);
+	$authorsCollection->delete(1);
+	$authorsCollection->delete(2);
+}
+catch (Exception $e){
+	// documents did not exist
+}
 
 // INSERT books
 $documents = [
@@ -57,17 +69,17 @@ $authorsCollection->insertMany($documents);
 
 // list all authors
 $authors = $authorsCollection->get();
-echo $authors->executedQuery(); // JS/SQL:  SELECT * FROM authors LIMIT 0, 20
+echo $authors->executedQuery()."<br/>\r\n"; // JS/SQL:  SELECT * FROM authors LIMIT 0, 20
 foreach ($authors as $author) {
-	echo $author->name . '<br/>';
+	echo $author->name . '<br/>'."\r\n";
 }
 
 // list books with authors using JOIN (currently you have to use raw() function for JOINS)
-$books = $booksCollection->raw('SELECT *, authors.name
+$books = $booksCollection->raw('SELECT books.title, author.name
         FROM books
-        LEFT JOIN authors ON authors._id == books.author_id');
+        LEFT JOIN authors AS author ON author._id == books.author_id');
 foreach ($books as $book) {
-	echo $book->title . ' (' . $book->{'authors.name'} . ')<br/>';
+	echo $book->{'books.title'} . ' (' . $book->{'author.name'} . ')<br/>'."\r\n";
 }
 
 
@@ -79,4 +91,4 @@ $results = $booksCollection->select(['name', 'color', 'price', 'category'])
 	->orderBy('price')
 	->limit(5);
 
-echo $results->getQuery();
+echo $results->getQuery()."<br/>\r\n";
