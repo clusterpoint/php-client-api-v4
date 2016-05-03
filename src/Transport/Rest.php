@@ -27,6 +27,12 @@ class Rest implements TransportInterface
      */
     public static function execute(ConnectionInterface $connection)
     {
+        if ($connection->debug === true) {
+        	echo "URL: ".$connection->host.'/'.$connection->accountId.'/'.$connection->db.''.$connection->action.(isset($connection->transactionId) ? '?transaction_id='.$connection->transactionId : '')."\r\n";
+        	echo "USER:PWD: ".$connection->username.":".$connection->password."\r\n";
+        	echo "METHOD: ".$connection->method."\r\n";
+        	echo "QUERY: ".(isset($connection->query) ? $connection->query : null)."\r\n";
+        }
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $connection->host.'/'.$connection->accountId.'/'.$connection->db.''.$connection->action.(isset($connection->transactionId) ? '?transaction_id='.$connection->transactionId : ''));
         curl_setopt($curl, CURLOPT_USERPWD, $connection->username.":".$connection->password);
@@ -37,7 +43,16 @@ class Rest implements TransportInterface
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
         $curlResponse = curl_exec($curl);
+        
+        if ($connection->debug === true) {
+            if (curl_error($curl)) {
+                echo "cURL error: ".curl_error($curl)."\r\n";
+            }
+            echo "RESPONSE: ".$curlResponse."\r\n";
+        }
+        
         curl_close($curl);
+        
         return ($connection->query==='BEGIN_TRANSACTION') ? json_decode($curlResponse)->transaction_id : ((isset($connection->multiple) && $connection->multiple) ? new Batch($curlResponse, $connection) : new Single($curlResponse, $connection));
     }
 }

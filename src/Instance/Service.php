@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Clusterpoint\Instance;
 
 use Exception;
@@ -19,42 +19,42 @@ use Clusterpoint\Exceptions\ClusterpointException;
  */
 class Service extends QueryBuilder
 {
-    /**
-     * Set connection access points.
-     *
-     * @param  \stdClass  $connection
-     * @return void
-     */
-    public function __construct(ConnectionInterface $connection)
-    {
-        $this->connection = $connection;
-        $this->scope = new QueryScope;
-    }
-
-    /**
-     * Wraps all method use in try - catch.
-     *
-     * @param  string  $method
-     * @param  array  $arguments
-     * @return $this
-     */
-    public function __call($method, $arguments)
-    {
-        $return = null;
-        try {
-            if (!in_array($method, $this->availableMethods())) {
-                throw new ClusterpointException("\"->{$method}()\" method: does not exist.", 9002);
-            }
-            $return = call_user_func_array(array($this, $method), $arguments);
-        } catch (Exception $e) {
-            if (isset($this->connection->transactionId)) {
-                $this->rollback();
-            }
-            if ($this->connection->debug===true || strtolower($this->connection->debug)==='true') {
-                throw new ClusterpointException($e->getMessage(), $e->getCode());
-            }
-            $return = null;
-        }
-        return $return;
-    }
+	/**
+	 * Set connection access points.
+	 *
+	 * @param  \stdClass $connection
+	 * @return void
+	 */
+	public function __construct(ConnectionInterface $connection)
+	{
+		$this->connection = $connection;
+		$this->scope = new QueryScope;
+	}
+	
+	/**
+	 * Wraps all method use in try - catch.
+	 *
+	 * @param  string $method
+	 * @param  array $arguments
+	 * @return $this
+	 */
+	public function __call($method, $arguments)
+	{
+		$return = null;
+		try {
+			if (!in_array($method, $this->availableMethods())) {
+				throw new ClusterpointException("\"->{$method}()\" method: does not exist.", 9002);
+			}
+			$return = call_user_func_array(array($this, $method), $arguments);
+		} catch (Exception $e) {
+			if (isset($this->connection->transactionId)) {
+				$this->rollback();
+			}
+			if (ini_get('display_errors')) {
+				throw new ClusterpointException($e->getMessage(), $e->getCode());
+			}
+			$return = null;
+		}
+		return $return;
+	}
 }

@@ -21,7 +21,7 @@ class Connection implements ConnectionInterface
      * @var string
      */
     public $db;
-
+    
     /**
      * Holds host.
      *
@@ -76,7 +76,7 @@ class Connection implements ConnectionInterface
         $connection = $this->checkSource($connection);
         $this->parseConfig($connection);
     }
-
+    
     /**
      * Creates Connection instance.
      *
