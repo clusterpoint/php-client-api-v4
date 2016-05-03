@@ -229,6 +229,24 @@ class Parser
     }
 
     /**
+     * Set query parametrs to execute - delete many by "_id".
+     *
+     * @param  array  $id
+     * @param  \stdClass $connection
+     * @return \Clusterpoint\Response\Single
+     */
+    public static function deleteMany(array $ids = array(), $connection)
+    {
+        if (!is_array($ids)) {
+            throw new ClusterpointException("\"->deleteMany()\" function: \"_id\" is not in valid format.", 9002);
+        }
+        $connection->method = 'DELETE';
+        $connection->action = '';
+        $connection->query = json_encode($ids);
+        return self::sendQuery($connection);
+    }
+
+    /**
      * Set query document to execute - Insert One.
      *
      * @param  array|object  $document
@@ -293,7 +311,7 @@ class Parser
             $tmp = explode('.', $connection->db);
             $from = end($tmp);
         }
-        
+
         $connection->method = 'PATCH';
         $connection->action = '['.urlencode($id).']';
         switch (gettype($document)) {

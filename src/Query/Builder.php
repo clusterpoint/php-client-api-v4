@@ -205,6 +205,17 @@ abstract class Builder
     }
 
     /**
+     * Delete documents by "_id" fields.
+     *
+     * @param  $ids array
+     * @return \Clusterpoint\Response\Single
+     */
+    protected function deleteMany(array $ids = array())
+    {
+        return Parser::deleteMany($ids, $this->connection);
+    }
+
+    /**
      * Insert one document.
      *
      * @param  mixed  $document
