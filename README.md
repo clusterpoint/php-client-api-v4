@@ -80,11 +80,13 @@ echo "First bike price: ".$results[0]->price;
 
 
 <a name="bugs"></a>
-## Bugs and Vulnerabilities
+## Support, Feature Requests & Bug Reports
 
-If you discover a vulnerability or bug within our API or database functionality, please send an e-mail to our support team at support@clusterpoint.com.
+* [GitHub issues](https://github.com/clusterpoint/php-client-api-v4/issues) for bug reports and feature requests
+* [StackOverflow](https://stackoverflow.com) to ask questions (please make sure to use the [clusterpoint](http://stackoverflow.com/questions/tagged/clusterpoint) tag)
+* You can also send an e-mail to our support team at support@clusterpoint.com
 
 <a name="license"></a>
 ## License
 
-The Clusterpoint PHP client API is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+Clusterpoint 4.0 PHP Client API is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
