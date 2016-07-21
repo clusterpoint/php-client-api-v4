@@ -82,7 +82,7 @@ class Client
      * @param  string  $db
      * @return \Clusterpoint\Instance\Service
      */
-    protected function database($db)
+    public function database($db)
     {
         $connection = $this->connection;
         $connection->db = $db;
@@ -98,7 +98,7 @@ class Client
      * @param  string  $db
      * @return \Clusterpoint\Instance\Service
      */
-    protected function db($db)
+    public function db($db)
     {
         return $this->database($db);
     }

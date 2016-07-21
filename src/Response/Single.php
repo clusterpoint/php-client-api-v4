@@ -88,7 +88,7 @@ class Single extends Response
      *
      * @return \Clusterpoint\Response\Single
      */
-    protected function save()
+    public function save()
     {
         return QueryParser::replace($this->_id, $this, $this->connection);
     }
@@ -98,7 +98,7 @@ class Single extends Response
      *
      * @return \Clusterpoint\Response\Single
      */
-    protected function delete()
+    public function delete()
     {
         return QueryParser::delete($this->_id, $this->connection);
     }

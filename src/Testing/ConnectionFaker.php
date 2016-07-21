@@ -79,7 +79,7 @@ class ConnectionFaker implements ConnectionInterface
         $this->accountId = "1";
         $this->username = "name";
         $this->password = "password";
-        $this->debug = true;
+        $this->debug = false;
         $this->query = null;
         $this->method = "GET";
         $this->action = "[id_string]";

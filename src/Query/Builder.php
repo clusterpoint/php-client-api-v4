@@ -48,7 +48,7 @@ abstract class Builder
      * @param  string  $logical
      * @return $this
      */
-    protected function where($field, $operator = null, $value = null, $logical = '&&')
+    public function where($field, $operator = null, $value = null, $logical = '&&')
     {
         if ($field instanceof Closure) {
             $this->scope->where .= $this->scope->where=='' ? ' (' : $logical.' (';
@@ -69,7 +69,7 @@ abstract class Builder
      * @param  mixed   $value
      * @return $this
      */
-    protected function orWhere($field, $operator = null, $value = null)
+    public function orWhere($field, $operator = null, $value = null)
     {
         return $this->where($field, $operator, $value, '||');
     }
@@ -80,7 +80,7 @@ abstract class Builder
      * @param  mixed  $select
      * @return $this
      */
-    protected function select($select = null)
+    public function select($select = null)
     {
         $this->scope->select = Parser::select($select);
         return $this;
@@ -92,7 +92,7 @@ abstract class Builder
      * @param  mixed  $limit
      * @return $this
      */
-    protected function limit($limit)
+    public function limit($limit)
     {
         $this->scope->limit = Parser::limit($limit);
         return $this;
@@ -104,7 +104,7 @@ abstract class Builder
      * @param  mixed  $offset
      * @return $this
      */
-    protected function offset($offset)
+    public function offset($offset)
     {
         $this->scope->offset = Parser::offset($offset);
         return $this;
@@ -117,7 +117,7 @@ abstract class Builder
      * @param  string  $order
      * @return $this
      */
-    protected function orderBy($field, $order = null)
+    public function orderBy($field, $order = null)
     {
         $this->scope->orderBy[] = Parser::orderBy($field, $order);
         return $this;
@@ -129,7 +129,7 @@ abstract class Builder
      * @param  string  $field
      * @return $this
      */
-    protected function groupBy($field)
+    public function groupBy($field)
     {
         $this->scope->groupBy[] = Parser::groupBy($field);
         return $this;
@@ -141,7 +141,7 @@ abstract class Builder
      * @param  string  $prepend
      * @return $this
      */
-    protected function prepend($prepend)
+    public function prepend($prepend)
     {
         $this->scope->prepend = $prepend.' ';
         return $this;
@@ -153,7 +153,7 @@ abstract class Builder
      * @param  string  $id
      * @return \Clusterpoint\Response\Single
      */
-    protected function find($id)
+    public function find($id)
     {
         return Parser::find($id, $this->connection);
     }
@@ -163,7 +163,7 @@ abstract class Builder
      *
      * @return \Clusterpoint\Response\Single
      */
-    protected function first()
+    public function first()
     {
         $this->scope->limit = 1;
         $this->scope->offset = 0;
@@ -176,7 +176,7 @@ abstract class Builder
      * @param  boolean  $multiple
      * @return \Clusterpoint\Response\Batch
      */
-    protected function get($multiple = true)
+    public function get($multiple = true)
     {
         $scope = $this->scope;
         return Parser::get($scope, $this->connection, $multiple);
@@ -188,7 +188,7 @@ abstract class Builder
      * @param  string  $raw
      * @return \Clusterpoint\Response\Batch
      */
-    protected function raw($raw)
+    public function raw($raw)
     {
         return Parser::raw($raw, $this->connection);
     }
@@ -199,7 +199,7 @@ abstract class Builder
      * @param  string  $id
      * @return \Clusterpoint\Response\Single
      */
-    protected function delete($id = null)
+    public function delete($id = null)
     {
         return Parser::delete($id, $this->connection);
     }
@@ -210,7 +210,7 @@ abstract class Builder
      * @param  $ids array
      * @return \Clusterpoint\Response\Single
      */
-    protected function deleteMany(array $ids = array())
+    public function deleteMany(array $ids = array())
     {
         return Parser::deleteMany($ids, $this->connection);
     }
@@ -221,7 +221,7 @@ abstract class Builder
      * @param  mixed  $document
      * @return \Clusterpoint\Response\Single
      */
-    protected function insertOne($document)
+    public function insertOne($document)
     {
         return Parser::insertOne($document, $this->connection);
     }
@@ -232,7 +232,7 @@ abstract class Builder
      * @param  mixed  $document
      * @return \Clusterpoint\Response\Single
      */
-    protected function insertMany($document)
+    public function insertMany($document)
     {
         return Parser::insertMany($document, $this->connection);
     }
@@ -244,7 +244,7 @@ abstract class Builder
      * @param  mixed  $document
      * @return \Clusterpoint\Response\Single
      */
-    protected function update($id, $document  = null)
+    public function update($id, $document  = null)
     {
         return Parser::update($id, $document, $this->connection);
     }
@@ -256,7 +256,7 @@ abstract class Builder
      * @param  mixed  $document
      * @return \Clusterpoint\Response\Single
      */
-    protected function replace($id, $document = null)
+    public function replace($id, $document = null)
     {
         return Parser::replace($id, $document, $this->connection);
     }
@@ -266,7 +266,7 @@ abstract class Builder
      *
      * @return \Clusterpoint\Instance\Service
      */
-    protected function transaction()
+    public function transaction()
     {
         $transaction_id = Parser::beginTransaction($this->connection);
         $connection = $this->connection;
@@ -279,7 +279,7 @@ abstract class Builder
      *
      * @return \Clusterpoint\Response\Single
      */
-    protected function rollback()
+    public function rollback()
     {
         return Parser::rollbackTransaction($this->connection);
     }
@@ -289,7 +289,7 @@ abstract class Builder
      *
      * @return \Clusterpoint\Response\Single
      */
-    protected function commit()
+    public function commit()
     {
         return Parser::commitTransaction($this->connection);
     }
@@ -310,7 +310,7 @@ abstract class Builder
      *
      * @return $scope
      */
-    protected function getQuery()
+    public function getQuery()
     {
         return Parser::get($this->scope, $this->connection, true, true);
     }

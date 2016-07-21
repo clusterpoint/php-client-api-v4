@@ -155,6 +155,7 @@ class Parser
         }
         $connection->method = 'GET';
         $connection->action = '['.urlencode($id).']';
+        $connection->multiple = false;
         return self::sendQuery($connection);
     }
 
