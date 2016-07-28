@@ -193,7 +193,7 @@ class Response implements Iterator, Countable, ResponseInterface
      */
     public function seconds()
     {
-        return $this->scope->error;
+        return $this->scope->seconds;
     }
 
     /**
