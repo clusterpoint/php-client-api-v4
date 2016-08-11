@@ -21,24 +21,8 @@ $config = array(
 	'password' => 'PASSWORD',
 	'debug' => false
 );
-$config = array(
-	'host' => 'https://api-eu.clusterpoint.com/v4/',
-	'account_id' => '70',
-	'username' => 'toms.binde@gmail.com',
-	'password' => 'qweqwe',
-	'debug' => false
-);
 
 $cp = new Clusterpoint\Client($config);
-
-// connect to database
-/*$bookshelfDB = $cp->database('bookshelf');
-
-// connect to collection using database connection
-$authorsCollection = $bookshelfDB->collection('authors');
-
-// or one can connect straight to the collection like this
-$booksCollection = $cp->database('bookshelf')->collection('books');*/
 
 // the select a collection to work with
 $booksCollection = $cp->database('bookshelf.books');
