@@ -143,7 +143,7 @@ abstract class Builder
      */
     public function prepend($prepend)
     {
-        $this->scope->prepend = $prepend.' ';
+        $this->scope->prepend .= $prepend.' ';
         return $this;
     }
 
