@@ -75,16 +75,6 @@ foreach ($response as $data) {
 }
 
 
-// connect to database
-/*$bookshelfDB = $cp->database('bookshelf');
-
-// connect to collection using database connection
-$authorsCollection = $bookshelfDB->collection('authors');
-
-// or one can connect straight to the collection like this
-$booksCollection = $cp->database('bookshelf')->collection('books');*/
-
-
 // try to remove documents from both collections just for the purpose of this example
 $ids = [];
 foreach ($response = $authorsCollection->limit(10000)->get() as $author) {
