@@ -206,6 +206,10 @@ class Response implements Iterator, Countable, ResponseInterface
         return $this->scope->rawResponse;
     }
 
+    public function collectionStatus(){
+    	return $this->scope->collection_status;
+	}
+
     /**
      * Returns the string with executed Query.
      *

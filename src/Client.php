@@ -6,6 +6,7 @@ use Clusterpoint\Helper\Key as ClusterpointKey;
 use Clusterpoint\Helper\Raw as ClusterpointRaw;
 use Clusterpoint\Exceptions\ClusterpointException;
 use Clusterpoint\Standart\Connection as StandartConnection;
+use Clusterpoint\Transport\Rest as DataLayer;
 
 /**
  *
@@ -40,6 +41,53 @@ class Client
         $this->constructConnections = $connection;
         $this->connection = class_exists("Clusterpoint\Connection") ? new Connection($connection) : new StandartConnection($connection);
     }
+
+	public function createDatabase($databaseName)
+	{
+		$this->connection->query = 'CREATE DATABASE ' . $databaseName;
+		$this->connection->method = 'POST';
+
+		$response = DataLayer::execute($this->connection, true);
+		$this->connection->resetSelf();
+		return $response;
+	}
+
+	public function dropDatabase($databaseName)
+	{
+		$this->connection->query = 'DROP DATABASE ' . $databaseName;
+		$this->connection->method = 'POST';
+
+		$response = DataLayer::execute($this->connection, true);
+		$this->connection->resetSelf();
+		return $response;
+	}
+
+	public function listDatabases()
+	{
+		$this->connection->query = 'LIST DATABASES';
+		$this->connection->method = 'POST';
+		$this->connection->multiple = true;
+
+		$response = DataLayer::execute($this->connection, true);
+		$this->connection->resetSelf();
+		return $response;
+	}
+
+	public function listCollections($databaseName = '')
+	{
+		$data = 'LIST COLLECTIONS';
+		if ($databaseName !== '') {
+			$data .= ' FROM ' . $databaseName;
+		}
+
+		$this->connection->query = $data;
+		$this->connection->method = 'POST';
+		$this->connection->multiple = true;
+
+		$response = DataLayer::execute($this->connection, true);
+		$this->connection->resetSelf();
+		return $response;
+	}
 
     /**
      * Escapes string for special characters.

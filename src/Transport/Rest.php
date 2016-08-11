@@ -25,16 +25,23 @@ class Rest implements TransportInterface
      * @param  \stdClass $connection
      * @return \Clusterpoint\Response\Single|\Clusterpoint\Response\Batch|string
      */
-    public static function execute(ConnectionInterface $connection)
+    public static function execute(ConnectionInterface $connection, $forceSimpleUrl = false)
     {
+    	$url = $connection->host.'/'.$connection->accountId.'/'.$connection->db.''.$connection->action.(isset($connection->transactionId) ? '?transaction_id='.$connection->transactionId : '');
+
+		if ($forceSimpleUrl){
+			$url = $connection->host.'/'.$connection->accountId.'/?user_account=73';
+		}
+
         if ($connection->debug === true) {
-        	echo "URL: ".$connection->host.'/'.$connection->accountId.'/'.$connection->db.''.$connection->action.(isset($connection->transactionId) ? '?transaction_id='.$connection->transactionId : '')."\r\n";
+        	echo "URL: ".$url."\r\n";
         	echo "USER:PWD: ".$connection->username.":".str_repeat('X',strlen($connection->password))."\r\n";
         	echo "METHOD: ".$connection->method."\r\n";
         	echo "QUERY: ".(isset($connection->query) ? $connection->query : null)."\r\n";
         }
+
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $connection->host.'/'.$connection->accountId.'/'.$connection->db.''.$connection->action.(isset($connection->transactionId) ? '?transaction_id='.$connection->transactionId : ''));
+        curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_USERPWD, $connection->username.":".$connection->password);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $connection->method);
         curl_setopt($curl, CURLOPT_POSTFIELDS, isset($connection->query) ? $connection->query : null);

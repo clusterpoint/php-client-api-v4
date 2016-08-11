@@ -470,6 +470,15 @@ class Parser
         return $response;
     }
 
+	public static function getStatus($connection)
+	{
+		$connection->query = '';
+		$connection->method = 'GET';
+		$connection->action = '/_status';
+		$connection->multiple = true;
+		return self::sendQuery($connection);
+	}
+
     /**
      * Encode single document in valid format.
      *

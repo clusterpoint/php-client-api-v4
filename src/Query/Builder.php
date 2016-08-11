@@ -39,6 +39,11 @@ abstract class Builder
      */
     abstract public function __construct(ConnectionInterface $connection);
 
+	public function getStatus()
+	{
+		return Parser::getStatus($this->connection);
+	}
+
     /**
      * Add a basic where clause to the query.
      *
