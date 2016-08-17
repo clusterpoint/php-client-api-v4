@@ -46,6 +46,7 @@ class Client
 	{
 		$this->connection->query = 'CREATE DATABASE ' . $databaseName;
 		$this->connection->method = 'POST';
+		$this->connection->action = '';
 
 		$response = DataLayer::execute($this->connection, true);
 		$this->connection->resetSelf();
@@ -56,6 +57,7 @@ class Client
 	{
 		$this->connection->query = 'DROP DATABASE ' . $databaseName;
 		$this->connection->method = 'POST';
+		$this->connection->action = '';
 
 		$response = DataLayer::execute($this->connection, true);
 		$this->connection->resetSelf();
@@ -67,6 +69,7 @@ class Client
 		$this->connection->query = 'LIST DATABASES';
 		$this->connection->method = 'POST';
 		$this->connection->multiple = true;
+		$this->connection->action = '';
 
 		$response = DataLayer::execute($this->connection, true);
 		$this->connection->resetSelf();
@@ -76,13 +79,14 @@ class Client
 	public function listCollections($databaseName = '')
 	{
 		$data = 'LIST COLLECTIONS';
-		if ($databaseName !== '') {
+		if ($databaseName !== false) {
 			$data .= ' FROM ' . $databaseName;
 		}
 
 		$this->connection->query = $data;
 		$this->connection->method = 'POST';
 		$this->connection->multiple = true;
+		$this->connection->action = '';
 
 		$response = DataLayer::execute($this->connection, true);
 		$this->connection->resetSelf();
