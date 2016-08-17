@@ -55,6 +55,7 @@ class Service extends QueryBuilder
 		$this->connection->query = $data;
 		$this->connection->method = 'POST';
 		$this->connection->multiple = true;
+		$this->connection->action = '';
 
 		$response = DataLayer::execute($this->connection, true);
 		$this->connection->resetSelf();
@@ -75,6 +76,7 @@ class Service extends QueryBuilder
 		$this->connection->query = $data;
 		$this->connection->method = 'POST';
 		$this->connection->multiple = true;
+		$this->connection->action = '';
 
 		$response = DataLayer::execute($this->connection, true);
 		$this->connection->resetSelf();
@@ -88,6 +90,7 @@ class Service extends QueryBuilder
 		$this->connection->query = $data;
 		$this->connection->method = 'POST';
 		$this->connection->multiple = true;
+		$this->connection->action = '';
 
 		$response = DataLayer::execute($this->connection, true);
 		$this->connection->resetSelf();
@@ -101,6 +104,7 @@ class Service extends QueryBuilder
 		$this->connection->query = $data;
 		$this->connection->method = 'POST';
 		$this->connection->multiple = true;
+		$this->connection->action = '';
 
 		$response = DataLayer::execute($this->connection, true);
 		$this->connection->resetSelf();
@@ -123,6 +127,7 @@ class Service extends QueryBuilder
 		$this->connection->query = $data;
 		$this->connection->method = 'POST';
 		$this->connection->multiple = true;
+		$this->connection->action = '';
 
 		$response = DataLayer::execute($this->connection, true);
 		$this->connection->resetSelf();
@@ -136,6 +141,7 @@ class Service extends QueryBuilder
 		$this->connection->query = $data;
 		$this->connection->method = 'POST';
 		$this->connection->multiple = true;
+		$this->connection->action = '';
 
 		$response = DataLayer::execute($this->connection, true);
 		$this->connection->resetSelf();
