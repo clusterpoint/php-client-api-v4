@@ -18,35 +18,21 @@ $config = array(
 	'password' => 'PASSWORD',
 	'debug' => false
 );
-$config = array(
-	'host' => 'https://api-eu.clusterpoint.com/v4/',
-	'account_id' => '70',
-	'username' => 'toms.binde@gmail.com',
-	'password' => 'qweqwe',
-	'debug' => false
-);
-$config = array(
-	'host' => 'https://api-test.clusterpoint.com/v4/',
-	'account_id' => '73',
-	'username' => 'toms@clusterpoint.com',
-	'password' => 'qweqwe',
-	'debug' => true
-);
 
 // Create Clusterpoint connection
-$cp = new Clusterpoint\Client($config);
+$clusterpoint = new Clusterpoint\Client($config);
 
 
 try {
-	$cp->dropDatabase('bookshelf');
+	$clusterpoint->dropDatabase('bookshelf');
 } catch (Exception $e) {
 }
 
 // create database
-$cp->createDatabase('bookshelf');
+$clusterpoint->createDatabase('bookshelf');
 
 // connect to the newly created bookshelf database
-$bookshelfDB = $cp->database('bookshelf');
+$bookshelfDB = $clusterpoint->database('bookshelf');
 
 // create collection with custom configuration
 $cfg = [
@@ -62,8 +48,8 @@ $bookshelfDB->createCollection('authors', $cfg);
 $bookshelfDB->createCollection('books');
 
 // select collections to work with
-$booksCollection = $cp->database('bookshelf.books');
-$authorsCollection = $cp->database('bookshelf.authors');
+$booksCollection = $clusterpoint->database('bookshelf.books');
+$authorsCollection = $clusterpoint->database('bookshelf.authors');
 
 // make sure collectionas are initialized
 $collectionsReady = false;
@@ -76,13 +62,13 @@ while (!$collectionsReady) {
 }
 
 // list collections in database
-$response = $cp->listCollections('bookshelf');
+$response = $clusterpoint->listCollections('bookshelf');
 foreach ($response as $data) {
 	echo $data->name;
 }
 
 // list all databases
-$response = $cp->listDatabases();
+$response = $clusterpoint->listDatabases();
 foreach ($response as $data) {
 	echo $data->name;
 }
@@ -131,7 +117,7 @@ $booksCollection->insertMany($documents);
 
 // list five authors
 $authors = $authorsCollection->limit(5)->get();
-echo $authors->executedQuery() . "\r\n"; // JS/SQL:  SELECT * FROM authors LIMIT 0, 5
+echo $authors->getQuery() . "\r\n"; // JS/SQL:  SELECT * FROM authors LIMIT 0, 5
 foreach ($authors as $author) {
 	echo $author->name . '' . "\r\n";
 }
@@ -180,4 +166,4 @@ $response = $booksCollection->describe();
 $bookshelfDB->dropCollection('books');
 
 //drop database with all collections
-$cp->dropDatabase('bookshelf');
+$clusterpoint->dropDatabase('bookshelf');

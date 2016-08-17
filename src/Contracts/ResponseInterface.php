@@ -82,11 +82,18 @@ interface ResponseInterface
     public function rawResponse();
 
     /**
-     * Returns the string with executed Query.
+     * Returns the string with executed Query. Alias for getQuery();
      *
      * @return string
      */
     public function executedQuery();
+
+	/**
+	 * Returns the string with executed Query.
+	 *
+	 * @return string
+	 */
+    public function getQuery();
 
     /**
      * Returns results as the array.
