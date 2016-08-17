@@ -36,14 +36,17 @@ class Service extends QueryBuilder
 	public function createCollection($collectionName, $options = array()){
 		$data = 'CREATE COLLECTION ' . $this->connection->db . '.' . $collectionName;
 
-		if (isset($options['shards']) && $options['shards'] > 0) {
-			$data .= ' WITH ' . $options['shards'] . ' SHARDS ';
-		}
-		if (isset($options['replicas']) && $options['replicas'] > 0) {
-			$data .= ' WITH ' . $options['replicas'] . ' REPLICAS ';
-		}
 		if (isset($options['hyperreplication']) && $options['hyperreplication'] === true) {
 			$data .= ' WITH HYPERREPLICATION ';
+		}
+		else {
+			// do not send shards/replicas if hyperreplicated!
+			if (isset($options['shards']) && $options['shards'] > 0) {
+				$data .= ' WITH ' . $options['shards'] . ' SHARDS ';
+			}
+			if (isset($options['replicas']) && $options['replicas'] > 0) {
+				$data .= ' WITH ' . $options['replicas'] . ' REPLICAS ';
+			}
 		}
 		if (isset($options['dataModel']) && count($options['dataModel']) > 0) {
 			$data .= ' WITH DATA MODEL ' . json_encode($options['dataModel']);
