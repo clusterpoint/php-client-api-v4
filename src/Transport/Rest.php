@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Clusterpoint\Transport;
 
 use Clusterpoint\Response\Batch;
@@ -30,7 +30,7 @@ class Rest implements TransportInterface
     	$url = $connection->host.'/'.$connection->accountId.'/'.$connection->db.''.$connection->action.(isset($connection->transactionId) ? '?transaction_id='.$connection->transactionId : '');
 
 		if ($forceSimpleUrl){
-			$url = $connection->host.'/'.$connection->accountId.'/?user_account=73';
+			$url = $connection->host.'/'.$connection->accountId.'/?user_account='.$connection->accountId;
 		}
 
         if ($connection->debug === true) {
@@ -50,16 +50,16 @@ class Rest implements TransportInterface
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
         $curlResponse = curl_exec($curl);
-        
+
         if ($connection->debug === true) {
             if (curl_error($curl)) {
                 echo "cURL error: ".curl_error($curl)."\r\n";
             }
             echo "RESPONSE: ".$curlResponse."\r\n";
         }
-        
+
         curl_close($curl);
-        
+
         return ($connection->query==='BEGIN_TRANSACTION') ? json_decode($curlResponse)->transaction_id : ((isset($connection->multiple) && $connection->multiple) ? new Batch($curlResponse, $connection) : new Single($curlResponse, $connection));
     }
 }
