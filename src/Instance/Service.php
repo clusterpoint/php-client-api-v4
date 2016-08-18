@@ -169,13 +169,7 @@ class Service extends QueryBuilder
 			}
 			$return = call_user_func_array(array($this, $method), $arguments);
 		} catch (Exception $e) {
-			if (isset($this->connection->transactionId)) {
-				$this->rollback();
-			}
-			if (ini_get('display_errors')) {
-				throw new ClusterpointException($e->getMessage(), $e->getCode());
-			}
-			$return = null;
+			throw new ClusterpointException($e->getMessage(), $e->getCode());
 		}
 		return $return;
 	}

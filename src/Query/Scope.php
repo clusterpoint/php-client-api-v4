@@ -63,6 +63,9 @@ class Scope implements ScopeInterface
      */
     public $prepend;
 
+    public $listWordsField;
+    public $alternativesField;
+
     /**
      * Set Initial settings.
      *
@@ -87,5 +90,7 @@ class Scope implements ScopeInterface
         $this->orderBy = array();
         $this->groupBy = array();
         $this->prepend = '';
+        $this->listWordsField = null;
+        $this->alternativesField = null;
     }
 }

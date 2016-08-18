@@ -6,12 +6,9 @@
 // How to run this example?
 // 1. Create Clusterpoint account.
 // 2. Update $config variable with your account credentials
-// 3. Create database "bookshelf"
-// 4. Create collection under this db named "authors" (under Advanced choose "Enable hyper replication for this collection". This is for JOINs to work)
-// 5. Create collection under this db named "books"
-// 6. Include Clusterpoint Library
-include 'vendor/autoload.php'; // if using Clusterpoint API with Composer
-//include 'Clusterpoint.php'; // - without Composer
+// 3. Include Clusterpoint Library:
+//include 'vendor/autoload.php'; // if using Clusterpoint API with Composer
+include 'Clusterpoint.php'; // - without Composer
 
 //Note, replace 'api-eu' with 'api-us', if you are using US Cloud server
 $config = array(
@@ -22,13 +19,55 @@ $config = array(
 	'debug' => false
 );
 
-$cp = new Clusterpoint\Client($config);
+try {
+	$clusterpoint->dropDatabase('bookshelf');
+} catch (Exception $e) {
+}
 
-// the select a collection to work with
-$booksCollection = $cp->database('bookshelf.books');
+// create database
+$clusterpoint->createDatabase('bookshelf');
 
-// you can use $cp instance multiple times to access any collection
-$authorsCollection = $cp->database('bookshelf.authors');
+// connect to the newly created bookshelf database
+$bookshelfDB = $clusterpoint->database('bookshelf');
+
+// create collection with custom configuration
+$cfg = [
+//	'shards' => 3,
+//	'replicas' => 3,
+	'hyperreplication' => true,
+//	'dataModel' => array(),
+//	'config' => array(),
+];
+$bookshelfDB->createCollection('authors', $cfg);
+
+// create another collection
+$bookshelfDB->createCollection('books');
+
+// select collections to work with
+$booksCollection = $clusterpoint->database('bookshelf.books');
+$authorsCollection = $clusterpoint->database('bookshelf.authors');
+
+// make sure collectionas are initialized
+$collectionsReady = false;
+while (!$collectionsReady) {
+	$response1 = $booksCollection->getStatus();
+	$response2 = $authorsCollection->getStatus();
+	if ($response1->collectionStatus() === '0' && $response2->collectionStatus() === '0') {
+		$collectionsReady = true;
+	}
+}
+
+// list collections in database
+$response = $clusterpoint->listCollections('bookshelf');
+foreach ($response as $data) {
+	echo $data->name . "\r\n";;
+}
+
+// list all databases
+$response = $clusterpoint->listDatabases();
+foreach ($response as $data) {
+	echo $data->name . "\r\n";;
+}
 
 
 // try to remove documents from both collections just for the purpose of this example
@@ -36,12 +75,17 @@ $ids = [];
 foreach ($response = $authorsCollection->limit(10000)->get() as $author) {
 	$ids[] = $author->_id;
 }
-$authorsCollection->deleteMany($ids);
+if (count($ids) > 0) {
+	$authorsCollection->deleteMany($ids);
+}
+
 $ids = [];
 foreach ($response = $booksCollection->limit(10000)->get() as $book) {
 	$ids[] = $book->_id;
 }
-$booksCollection->deleteMany($ids);
+if (count($ids) > 0) {
+	$booksCollection->deleteMany($ids);
+}
 
 
 // INSERT a bunch of book authors
@@ -69,7 +113,7 @@ $booksCollection->insertMany($documents);
 
 // list five authors
 $authors = $authorsCollection->limit(5)->get();
-echo $authors->executedQuery() . "\r\n"; // JS/SQL:  SELECT * FROM authors LIMIT 0, 5
+echo $authors->getQuery() . "\r\n"; // JS/SQL:  SELECT * FROM authors LIMIT 0, 5
 foreach ($authors as $author) {
 	echo $author->name . '' . "\r\n";
 }
@@ -90,3 +134,46 @@ $results = $booksCollection->select(['name', 'color', 'price', 'category'])
 	->groupBy('category')
 	->orderBy('price')
 	->limit(5);
+
+
+
+// allocate a new transaction
+$transaction = $booksCollection->transaction();
+
+try {
+	$response = $transaction->update('doc_id', 'price = price + 10');
+	$transaction->commit();
+} // if exception thrown
+catch (Exception $e) {
+	$msg = $e->getMessage();
+	$transaction->rollback();
+}
+
+
+// edit collection configuration
+$cfg = [
+	'dataModel' => array(),
+	'config' => array(),
+];
+$bookshelfDB->editCollection('books', $cfg);
+
+//how to clear collections?
+$booksCollection->clear();
+$authorsCollection->clear();
+
+//reindex
+$cfg = [
+//	'inBackground' => true,
+//	'shard' => 1,
+//	'node' => 5,
+];
+$booksCollection->reindex($cfg);
+
+//describe
+$response = $booksCollection->describe();
+
+//drop collection
+$bookshelfDB->dropCollection('books');
+
+//drop database with all collections
+$clusterpoint->dropDatabase('bookshelf');

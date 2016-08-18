@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Clusterpoint\Query;
 
 use Closure;
@@ -30,7 +30,7 @@ abstract class Builder
      * @var \stdClass
      */
     protected $connection;
-    
+
     /**
      * Set connection access points.
      *
@@ -38,6 +38,34 @@ abstract class Builder
      * @return void
      */
     abstract public function __construct(ConnectionInterface $connection);
+
+	public function listWords($word, $field = null)
+	{
+		$this->where('word','==',$word);
+
+		if (!is_null($field)){
+			$this->scope->listWordsField = $field;
+		}
+		else {
+			$this->scope->listWordsField = '';
+		}
+
+		return $this;
+	}
+
+	public function alternatives($word, $field = null)
+	{
+		$this->where('word','==',$word);
+
+		if (!is_null($field)){
+			$this->scope->alternativesField = $field;
+		}
+		else {
+			$this->scope->alternativesField = '';
+		}
+
+		return $this;
+	}
 
 	public function getStatus()
 	{
@@ -298,7 +326,7 @@ abstract class Builder
     {
         return Parser::commitTransaction($this->connection);
     }
-    
+
     /**
      * Reset query scope values to defaults.
      *

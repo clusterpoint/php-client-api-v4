@@ -174,6 +174,22 @@ class Parser
             $tmp = explode('.', $connection->db);
             $from = end($tmp);
         }
+
+		if (!is_null($scope->listWordsField)) {
+			if ($scope->listWordsField === '') {
+				$from = 'LIST_WORDS(' . $from . ')';
+			} else {
+				$from = 'LIST_WORDS(' . $from . '.' . $scope->listWordsField . ')';
+			}
+		}
+
+		if (!is_null($scope->alternativesField)) {
+			if ($scope->alternativesField === '') {
+				$from = 'ALTERNATIVES(' . $from . ')';
+			} else {
+				$from = 'ALTERNATIVES(' . $from . '.' . $scope->alternativesField . ')';
+			}
+		}
         
         $connection->query = $scope->prepend.'SELECT '.$scope->select.' FROM '.$from.' ';
         if ($scope->where!='') {
