@@ -30,7 +30,7 @@ class Rest implements TransportInterface
     	$url = $connection->host.'/'.$connection->accountId.'/'.$connection->db.''.$connection->action.(isset($connection->transactionId) ? '?transaction_id='.$connection->transactionId : '');
 
 		if ($forceSimpleUrl){
-			$url = $connection->host.'/'.$connection->accountId.'/?user_account='.$connection->accountId;
+			$url = $connection->host.'/'.$connection->accountId;
 		}
 
         if ($connection->debug === true) {
