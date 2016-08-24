@@ -1,4 +1,4 @@
-# Clusterpoint 4.0 PHP Client API
+# Clusterpoint 4.x PHP Client API
 
 [![License](https://poser.pugx.org/clusterpoint/php-client-api-v4/license)](https://packagist.org/packages/clusterpoint/php-client-api-v4)
 [![Total Downloads](https://poser.pugx.org/clusterpoint/php-client-api-v4/downloads)](https://packagist.org/packages/clusterpoint/php-client-api-v4)
@@ -9,7 +9,7 @@ Clusterpoint is a NoSQL document database known for its innovative Cloud-based d
 
 The recently introduced fourth edition of Clusterpoint added a unique JavaScript/SQL query language with computational capabilities,, allowing you to create powerful queries to store, retrieve, and transform data. The PHP API is flexible enough to allow you to use either interface methods or raw JS/SQL queries to accomplish your database tasks. The decision to use either approach ultimately depends on programmer preference and the individual development scenario.
 
-## Clusterpoint 4.0 PHP Client API
+## Clusterpoint 4.x PHP Client API
 * [Official Documentation](#documentation)
 * [Requirements](#requirements)
 * [Getting Started](#start)
@@ -89,4 +89,4 @@ echo "First bike price: ".$results[0]->price;
 <a name="license"></a>
 ## License
 
-Clusterpoint 4.0 PHP Client API is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+Clusterpoint 4.x PHP Client API is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
