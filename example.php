@@ -19,6 +19,10 @@ $config = array(
 	'debug' => false
 );
 
+
+// Create Clusterpoint connection
+$clusterpoint = new Clusterpoint\Client($config);
+
 try {
 	$clusterpoint->dropDatabase('bookshelf');
 } catch (Exception $e) {
