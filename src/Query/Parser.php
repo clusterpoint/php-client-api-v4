@@ -1,6 +1,7 @@
 <?php 
 namespace Clusterpoint\Query;
 
+use Clusterpoint\Client;
 use Clusterpoint\Helper\Key;
 use Clusterpoint\Helper\Raw;
 use Clusterpoint\Query\Scope;
@@ -66,7 +67,12 @@ class Parser
             $field =  self::field("{$field}");
         }
         if (!($value instanceof Raw)) {
-            $value =  json_encode($value);
+        	if (is_string($value)){
+				$value = '"'.Client::escape($value).'"';
+			}
+			else {
+				$value =  json_encode($value);
+			}
         }
         return "{$logical} {$field}{$operator}{$value} ";
     }
