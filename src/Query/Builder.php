@@ -168,6 +168,12 @@ abstract class Builder
         return $this;
     }
 
+	public function join($type)
+	{
+		$this->scope->join = $type;
+		return $this;
+	}
+
     /**
      * Set prepending text to the query.
      *

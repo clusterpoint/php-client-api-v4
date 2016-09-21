@@ -198,6 +198,11 @@ class Parser
 		}
         
         $connection->query = $scope->prepend.'SELECT '.$scope->select.' FROM '.$from.' ';
+
+		if (!is_null($scope->join)){
+			$connection->query .= $scope->join.' ';
+		}
+
         if ($scope->where!='') {
             $connection->query .= 'WHERE'.$scope->where;
         }

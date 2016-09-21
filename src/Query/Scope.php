@@ -63,6 +63,8 @@ class Scope implements ScopeInterface
      */
     public $prepend;
 
+    public $join;
+
     public $listWordsField;
     public $alternativesField;
 
@@ -92,5 +94,6 @@ class Scope implements ScopeInterface
         $this->prepend = '';
         $this->listWordsField = null;
         $this->alternativesField = null;
+        $this->join = null;
     }
 }
