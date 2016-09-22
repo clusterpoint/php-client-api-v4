@@ -308,7 +308,7 @@ abstract class Builder
     public function transaction()
     {
         $transaction_id = Parser::beginTransaction($this->connection);
-        $connection = $this->connection;
+        $connection = clone $this->connection;
         $connection->transactionId = $transaction_id;
         return new Service($connection);
     }
