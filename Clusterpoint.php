@@ -15,3 +15,4 @@ include_once __DIR__.'/src/Query/Parser.php';
 include_once __DIR__.'/src/Query/Builder.php';
 include_once __DIR__.'/src/Instance/Service.php';
 include_once __DIR__.'/src/Client.php';
+include_once __DIR__.'/src/UserManagement.php';

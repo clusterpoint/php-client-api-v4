@@ -7,6 +7,7 @@ use Clusterpoint\Helper\Raw as ClusterpointRaw;
 use Clusterpoint\Exceptions\ClusterpointException;
 use Clusterpoint\Standart\Connection as StandartConnection;
 use Clusterpoint\Transport\Rest as DataLayer;
+use Clusterpoint\UserManagement;
 
 /**
  *
@@ -91,6 +92,10 @@ class Client
 		$response = DataLayer::execute($this->connection, true);
 		$this->connection->resetSelf();
 		return $response;
+	}
+
+	public function getUserManagement(){
+		return new UserManagement($this->constructConnections);
 	}
 
     /**
