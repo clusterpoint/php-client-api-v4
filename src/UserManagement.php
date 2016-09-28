@@ -383,7 +383,7 @@ class UserManagement
 		$alias = array('allowed_from', 'allowed from');
 		$value = $this->getValueByAlias($alias, $options);
 		if (!is_null($value)) {
-			$query[] = 'ALLOWED FROM ' . (is_array($value) ? implode(',', $value) : $value);
+			$query[] = 'ALLOWED FROM "' . (is_array($value) ? implode(',', $value) : $value) . '"';
 		}
 
 		$alias = array('name');
@@ -420,6 +420,112 @@ class UserManagement
 			$query[] = 'IN ACCOUNT ' . $value;
 		}
 
+
+		$this->connection->query = implode(' ', $query);
+		$response = DataLayer::execute($this->connection, true);
+		$this->resetSelfManagement();
+		return $response;
+	}
+
+	public function editUser($login, $options = array())
+	{
+		$options = array_change_key_case($options, CASE_LOWER);
+		$query = array();
+
+		$query[] = 'EDIT USER ' . $login;
+
+		$alias = array('set_login');
+		$value = $this->getValueByAlias($alias, $options);
+		if (!is_null($value)) {
+			$query[] = 'SET LOGIN "' . addslashes($value) . '"';
+		}
+		$alias = array('identified_by');
+		$value = $this->getValueByAlias($alias, $options);
+		if (!is_null($value)) {
+			$query[] = 'IDENTIFIED BY "' . addslashes($value) . '"';
+		}
+		$alias = array('set_as_gui_user');
+		$value = $this->getValueByAlias($alias, $options);
+		if ($value === true) {
+			$query[] = 'SET AS GUI USER';
+		}
+		$alias = array('set_enabled');
+		$value = $this->getValueByAlias($alias, $options);
+		if ($value === true) {
+			$query[] = 'SET ENABLED';
+		}
+		$alias = array('set_disabled');
+		$value = $this->getValueByAlias($alias, $options);
+		if ($value === true) {
+			$query[] = 'SET DISABLED';
+		}
+		$alias = array('set_allowed_from');
+		$value = $this->getValueByAlias($alias, $options);
+		if (!is_null($value)) {
+			$query[] = 'SET ALLOWED FROM "' . (is_array($value) ? implode(',', $value) : $value) . '"';
+		}
+		$alias = array('set_name');
+		$value = $this->getValueByAlias($alias, $options);
+		if (!is_null($value)) {
+			$query[] = 'SET NAME "' . addslashes($value) . '"';
+		}
+		$alias = array('set_phone');
+		$value = $this->getValueByAlias($alias, $options);
+		if (!is_null($value)) {
+			$query[] = 'SET PHONE "' . addslashes($value) . '"';
+		}
+		$alias = array('set_timezone');
+		$value = $this->getValueByAlias($alias, $options);
+		if (!is_null($value)) {
+			$query[] = 'SET TIMEZONE "' . addslashes($value) . '"';
+		}
+		$alias = array('set_roles', 'set_role');
+		$value = $this->getValueByAlias($alias, $options);
+		if (!is_null($value)) {
+			$query[] = 'SET ROLES ' . (is_array($value) ? implode(', ', $value) : $value);
+		}
+		$alias = array('add_roles', 'add_role');
+		$value = $this->getValueByAlias($alias, $options);
+		if (!is_null($value)) {
+			$query[] = 'ADD ROLES ' . (is_array($value) ? implode(', ', $value) : $value);
+		}
+		$alias = array('rem_roles', 'rem_role');
+		$value = $this->getValueByAlias($alias, $options);
+		if (!is_null($value)) {
+			$query[] = 'REM ROLES ' . (is_array($value) ? implode(', ', $value) : $value);
+		}
+		$alias = array('clear_roles', 'clear_role');
+		$value = $this->getValueByAlias($alias, $options);
+		if ($value === true) {
+			$query[] = 'CLEAR ROLES';
+		}
+
+		$alias = array('set_groups', 'set_group');
+		$value = $this->getValueByAlias($alias, $options);
+		if (!is_null($value)) {
+			$query[] = 'SET GROUPS ' . (is_array($value) ? implode(', ', $value) : $value);
+		}
+		$alias = array('add_groups', 'add_group');
+		$value = $this->getValueByAlias($alias, $options);
+		if (!is_null($value)) {
+			$query[] = 'ADD GROUPS ' . (is_array($value) ? implode(', ', $value) : $value);
+		}
+		$alias = array('rem_groups', 'rem_group');
+		$value = $this->getValueByAlias($alias, $options);
+		if (!is_null($value)) {
+			$query[] = 'REM GROUPS ' . (is_array($value) ? implode(', ', $value) : $value);
+		}
+		$alias = array('clear_groups', 'clear_group');
+		$value = $this->getValueByAlias($alias, $options);
+		if ($value === true) {
+			$query[] = 'CLEAR GROUPS';
+		}
+
+		$alias = array('account', 'in_account');
+		$value = $this->getValueByAlias($alias, $options);
+		if (!is_null($value)) {
+			$query[] = 'IN ACCOUNT ' . $value;
+		}
 
 		$this->connection->query = implode(' ', $query);
 		$response = DataLayer::execute($this->connection, true);
