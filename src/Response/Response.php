@@ -263,17 +263,26 @@ class Response implements Iterator, Countable, ResponseInterface
 
 	public function group()
 	{
-		return $this->scope->group;
+		if (isset($this->scope->group)){
+			return $this->scope->group;
+		}
+		return array();
 	}
 
 	public function role()
 	{
-		return $this->scope->role;
+		if (isset($this->scope->role)){
+			return $this->scope->role;
+		}
+		return array();
 	}
 
 	public function user()
 	{
-		return $this->scope->user;
+		if (isset($this->scope->user)){
+			return $this->scope->user;
+		}
+		return array();
 	}
 
 	/**
