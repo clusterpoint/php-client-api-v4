@@ -94,7 +94,7 @@ class UserManagement
 		return $response;
 	}
 
-	public function editGroup($name, $options)
+	public function editGroup($name, $options = array())
 	{
 		$query = array();
 		$query[] = 'EDIT GROUP ' . $name;
@@ -243,7 +243,7 @@ class UserManagement
 		return $response;
 	}
 
-	public function editRole($name, $options)
+	public function editRole($name, $options = array())
 	{
 		$query = array();
 		$query[] = 'EDIT ROLE ' . $name;
@@ -366,7 +366,7 @@ class UserManagement
 		return $response;
 	}
 
-	public function createUser($login, $password, $options)
+	public function createUser($login, $password, $options = array())
 	{
 		$options = array_change_key_case($options, CASE_LOWER);
 		$query = array();
