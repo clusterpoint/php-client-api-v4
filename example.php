@@ -51,7 +51,7 @@ $bookshelfDB->createCollection('books');
 $booksCollection = $clusterpoint->database('bookshelf.books');
 $authorsCollection = $clusterpoint->database('bookshelf.authors');
 
-// make sure collectionas are initialized
+// make sure collectionas are initialized after createCollection()
 $collectionsReady = false;
 while (!$collectionsReady) {
 	$response1 = $booksCollection->getStatus();
@@ -115,12 +115,21 @@ for ($x = 0; $x < 50; $x++) {
 $booksCollection->insertMany($documents);
 
 
-// list five authors
-$authors = $authorsCollection->limit(5)->get();
-echo $authors->getQuery() . "\r\n"; // JS/SQL:  SELECT * FROM authors LIMIT 0, 5
+// get three authors
+$authors = $authorsCollection->limit(3)->get();
+echo $authors->hits();
+echo $authors->getQuery();
+
+var_dump($authors[0]);
+
 foreach ($authors as $author) {
-	echo $author->name . '' . "\r\n";
+	var_dump($author);
 }
+
+$author = $authorsCollection->limit(5)->first();
+echo $author->hits();
+echo $author->getQuery();
+var_dump($author);
 
 // list five books with authors using JOIN (currently you have to use raw() function for JOINS)
 $books = $booksCollection->raw('SELECT books.title, author.name
