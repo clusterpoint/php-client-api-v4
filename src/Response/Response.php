@@ -44,6 +44,15 @@ class Response implements Iterator, Countable, ResponseInterface
 	public function __construct($raw_response, ConnectionInterface $connection)
 	{
 		$response = json_decode($raw_response);
+		if (isset($response->role)){
+			$response->results = $response->role;
+		}
+		if (isset($response->group)){
+			$response->results = $response->group;
+		}
+		if (isset($response->user)){
+			$response->results = $response->user;
+		}
 		$this->scope = new Scope($response);
 		$this->scope->rawResponse = $raw_response;
 		$this->scope->query = isset($connection->query) ? $connection->query : null;
@@ -259,30 +268,6 @@ class Response implements Iterator, Countable, ResponseInterface
 		}
 
 		return $result;
-	}
-
-	public function group()
-	{
-		if (isset($this->scope->group)){
-			return $this->scope->group;
-		}
-		return array();
-	}
-
-	public function role()
-	{
-		if (isset($this->scope->role)){
-			return $this->scope->role;
-		}
-		return array();
-	}
-
-	public function user()
-	{
-		if (isset($this->scope->user)){
-			return $this->scope->user;
-		}
-		return array();
 	}
 
 	/**
