@@ -390,6 +390,10 @@ class Parser
         $query_string = '';
         switch (gettype($value)) {
             case "array":
+				// check if this is meant to be value-only array without assoc keys (P.S. assoc key = field name)
+				if (array_keys($value) === range(0, count($value) - 1)){
+					return  "{$key} = ".json_encode($value); // value only array
+				}
             case "object":
                 $query_string .= "(typeof {$key} != \"undefined\") ? ";
                 $else_statement = " : {$key} = ".json_encode($value);
