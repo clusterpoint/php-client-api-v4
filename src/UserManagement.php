@@ -2,7 +2,6 @@
 namespace Clusterpoint;
 
 
-use Client;
 use Clusterpoint\Standart\Connection;
 use Clusterpoint\Transport\Rest as DataLayer;
 
