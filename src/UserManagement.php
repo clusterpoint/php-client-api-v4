@@ -63,6 +63,7 @@ class UserManagement
 			$this->connection->query .= ' IN ACCOUNT ' . $account_id;
 		}
 
+		$this->connection->multiple = false;
 		$response = DataLayer::execute($this->connection, true);
 		$this->resetSelfManagement();
 		return $response;
@@ -183,6 +184,7 @@ class UserManagement
 			$this->connection->query .= ' IN ACCOUNT ' . $account_id;
 		}
 
+		$this->connection->multiple = false;
 		$response = DataLayer::execute($this->connection, true);
 		$this->resetSelfManagement();
 		return $response;
@@ -306,6 +308,7 @@ class UserManagement
 			$this->connection->query .= ' IN ACCOUNT ' . $account_id;
 		}
 
+		$this->connection->multiple = false;
 		$response = DataLayer::execute($this->connection, true);
 		$this->resetSelfManagement();
 		return $response;

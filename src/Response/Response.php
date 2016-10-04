@@ -273,7 +273,7 @@ class Response implements Iterator, Countable, ResponseInterface
 	/**
 	 * Returns results as the array.
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function toArray()
 	{
