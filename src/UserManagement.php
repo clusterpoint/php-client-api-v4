@@ -401,10 +401,10 @@ class UserManagement
 			9 => ['ADD ROLES', 'ADD ROLE'],
 			10 => ['REM ROLES', 'REM ROLE'],
 			11 => ['CLEAR ROLES', 'CLEAR ROLE'],
-			12 => ['SET PARENTS', 'SET PARENT'],
-			13 => ['ADD PARENTS', 'ADD PARENT'],
-			14 => ['REM PARENTS', 'REM PARENT'],
-			15 => ['CLEAR PARENTS', 'CLEAR PARENT'],
+			12 => ['SET GROUPS', 'SET GROUP'],
+			13 => ['ADD GROUPS', 'ADD GROUP'],
+			14 => ['REM GROUPS', 'REM GROUP'],
+			15 => ['CLEAR GROUPS', 'CLEAR GROUP'],
 			16 => ['IN ACCOUNT'],
 		];
 
