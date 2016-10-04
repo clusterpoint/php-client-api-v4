@@ -73,6 +73,10 @@ class Single extends Response
         $this->scope->results[$key] = $value;
     }
 
+	public function __isset($name){
+		return isset($this->scope->results[$name]);
+	}
+
     /**
      * Returns Connection access points
      *
