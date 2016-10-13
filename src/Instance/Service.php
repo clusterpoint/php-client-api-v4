@@ -67,13 +67,41 @@ class Service extends QueryBuilder
 
 	public function editCollection($collectionName, $options = array())
 	{
+		$options = array_change_key_case($options, CASE_UPPER);
+
 		$data = 'EDIT COLLECTION ' . $this->connection->db . '.' . $collectionName;
 
-		if (isset($options['dataModel']) && count($options['dataModel']) > 0) {
-			$data .= ' SET DATA MODEL ' . json_encode($options['dataModel']);
+		foreach (array('IN ACCOUNT', 'IN_ACCOUNT', 'ACCOUNT') as $tmp) {
+			if (isset($options[$tmp])) {
+				$data .= ' IN ACCOUNT ' . $options[$tmp];
+				unset($options[$tmp]);
+			}
 		}
-		if (isset($options['config']) && count($options['dataModel']) > 0) {
-			$data .= ' SET CONFIG ' . json_encode($options['config']);
+
+		foreach (array('SET DATA MODEL', 'DATAMODEL') as $tmp) {
+			if (isset($options[$tmp]) && count($options[$tmp]) > 0) {
+				$data .= ' SET DATA MODEL ' . json_encode($options[$tmp]);
+				unset($options[$tmp]);
+			}
+		}
+
+		foreach (array('SET CONFIG', 'CONFIG') as $tmp) {
+			if (isset($options[$tmp]) && count($options[$tmp]) > 0) {
+				$data .= ' SET CONFIG ' . json_encode($options[$tmp]);
+				unset($options[$tmp]);
+			}
+		}
+
+		foreach (array('ENABLE DOCUMENT_LEVEL_SECURITY', 'ENABLE DOCUMENT LEVEL SECURITY', 'ENABLE DLS', 'DISABLE DOCUMENT_LEVEL_SECURITY', 'DISABLE DOCUMENT LEVEL SECURITY', 'DISABLE DLS') as $tmp) {
+			if (isset($options[$tmp]) && $options[$tmp] === true) {
+				$data .= ' ' . $tmp . ' ';
+				unset($options[$tmp]);
+			}
+		}
+
+		// everything remining in $options
+		foreach ($options as $key => $val) {
+			$data .= $key . ' ' . implode(', ', $val);
 		}
 
 		$this->connection->query = $data;

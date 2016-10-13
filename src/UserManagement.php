@@ -260,9 +260,9 @@ class UserManagement
 		return $response;
 	}
 
-	public function evalUser($name, $account_id = null)
+	public function evalUser($login, $account_id = null)
 	{
-		$this->connection->query = 'EVALUATE PERMISSIONS FOR USER ' . $name;
+		$this->connection->query = 'EVALUATE PERMISSIONS FOR USER ' . $login;
 
 		if (!is_null($account_id)) {
 			$this->connection->query .= ' IN ACCOUNT ' . $account_id;

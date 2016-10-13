@@ -77,6 +77,10 @@ class Single extends Response
 		return isset($this->scope->results[$name]);
 	}
 
+	public function __unset($name){
+		unset($this->scope->results[$name]);
+	}
+
     /**
      * Returns Connection access points
      *
