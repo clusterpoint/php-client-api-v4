@@ -101,7 +101,9 @@ class Service extends QueryBuilder
 
 		// everything remining in $options
 		foreach ($options as $key => $val) {
-			$data .= $key . ' ' . implode(', ', $val);
+			if (count($val) > 0){
+				$data .= ' '.$key . ' ' . implode(', ', $val);
+			}
 		}
 
 		$this->connection->query = $data;
