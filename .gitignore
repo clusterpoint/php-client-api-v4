@@ -4,4 +4,5 @@ composer.lock
 composer.phar
 phpcompatinfo-5.0.0.phar
 phpDocumentor.phar
+config.php
 /.idea

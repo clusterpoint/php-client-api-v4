@@ -19,13 +19,7 @@ $config = array(
 	'debug' => false
 );
 
-$config = array(
-	'host' => 'https://api-test.clusterpoint.com/v4/',
-	'account_id' => '78',
-	'username' => 'toms+test@clusterpoint.com',
-	'password' => 'qweqwe',
-	'debug' => true
-);
+@require_once 'config.php'; // for debugging purposes, delete this line
 
 
 // Create Clusterpoint connection
