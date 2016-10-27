@@ -403,7 +403,7 @@ class Parser
                         $child_statement = self::updateRecursion($key."[\"{$child_key}\"]", $child_value, $query_string, $else_statement);
                         $first= false;
                     } else {
-                        $child_statement .= ", ".$current_query.$query_string." ".self::updateRecursion($key."[\"{$child_key}\"]", $child_value, $query_string, $else_statement);
+                        $child_statement .= " ".$current_query.$query_string." ".self::updateRecursion($key."[\"{$child_key}\"]", $child_value, $query_string, $else_statement);
                     }
                     if (++$counter != count($value)) {
                         $child_statement .= " : {$key} = ".json_encode($value). $statement_end;
