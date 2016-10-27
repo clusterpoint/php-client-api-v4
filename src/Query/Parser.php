@@ -353,20 +353,9 @@ class Parser
                 break;
             case "array":
             case "object":
-                $set_array = array();
-                foreach ($document as $key => $value) {
-                    switch (gettype($value)) {
-                        case "array":
-                        case "object":
-                            $set_array[] = self::updateRecursion($key, $value);
-                        break;
-                        default:
-                        $set_array[] = "{$key} = ".json_encode($value);
-                    }
-                }
                 $connection->method = 'POST';
                 $connection->action = '/_query';
-                $connection->query = 'UPDATE '.$from.'["'.$id.'"] SET '.implode(", ", $set_array);
+                $connection->query = 'UPDATE '.$from.'["'.$id.'"] SET '.self::updateRecursion($document);
                 break;
             default:
                 throw new ClusterpointException("\"->update()\" function: parametr passed ".json_encode(self::escape_string($document))." is not in valid format.", 9002);
@@ -379,44 +368,52 @@ class Parser
     /**
      * Parse document for valid update command.
      *
-     * @param  mixed  $key
-     * @param  mixed  $value
-     * @param  string  $current_query
-     * @param  string  $statement_end
+     * @param  mixed  $document
      * @return string
      */
-    public static function updateRecursion($key, $value, $current_query = '', $statement_end = '')
-    {
-        $query_string = '';
-        switch (gettype($value)) {
-            case "array":
+	public static function updateRecursion($document)
+	{
+		$recursiveIterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($document));
+		$tmpResult = array();
+
+		foreach ($recursiveIterator as $value) {
+			$keys = array();
+			$isValueOnlyArr = false;
+
+			foreach (range(0, $recursiveIterator->getDepth()) as $depth) {
+				$isValueOnlyArr = false;
+				$currentValue = $recursiveIterator->getSubIterator($depth)->current();
+
 				// check if this is meant to be value-only array without assoc keys (P.S. assoc key = field name)
-				if (count($value) === 0 || array_keys($value) === range(0, count($value) - 1)){
-					return  "{$key} = ".json_encode($value); // value only array
+				if (is_array($currentValue) && (count($currentValue) === 0 || array_keys($currentValue) === range(0, count($currentValue) - 1))) {
+					$isValueOnlyArr = true;
+					$currentKey = $recursiveIterator->getSubIterator($depth)->key();
+					$keys[] = $currentKey;
+					$value = json_encode($currentValue); // value only array
+					break;
+				} else {
+					$keys[] = $recursiveIterator->getSubIterator($depth)->key();
 				}
-            case "object":
-                $query_string .= "(typeof {$key} != \"undefined\") ? ";
-                $else_statement = " : {$key} = ".json_encode($value);
-                $counter = 0;
-                foreach ($value as $child_key => $child_value) {
-                    if ($counter==0) {
-                        $child_statement = self::updateRecursion($key."[\"{$child_key}\"]", $child_value, $query_string, $else_statement);
-                        $first= false;
-                    } else {
-                        $child_statement .= " ".$current_query.$query_string." ".self::updateRecursion($key."[\"{$child_key}\"]", $child_value, $query_string, $else_statement);
-                    }
-                    if (++$counter != count($value)) {
-                        $child_statement .= " : {$key} = ".json_encode($value). $statement_end;
-                    } else {
-                        $query_string .= $child_statement;
-                    }
-                }
-                $query_string .= $else_statement;
-            break;
-            default:
-                $query_string .= "{$key} = ".json_encode($value);
-        }
-        return $query_string;
+			}
+
+			$firstKey = $keys[0];
+			unset($keys[0]);
+			if (!$isValueOnlyArr) {
+				$value = '"' . Client::escape($value) . '"';
+			}
+			if (count($keys) > 0) {
+				$tmpResult[$firstKey . '["' . join('"]["', $keys) . '"]'] = $value;
+			} else {
+				$tmpResult[$firstKey] = $value;
+			}
+
+		}
+
+		$result = array();
+		foreach ($tmpResult as $field => $value) {
+			$result[] = $field . ' = ' . $value;
+		}
+		return implode(', ', $result);
     }
 
     /**
