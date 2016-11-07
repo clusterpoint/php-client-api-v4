@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Clusterpoint\Query;
 
 use Clusterpoint\Client;
@@ -166,7 +166,7 @@ class Parser
     }
 
     /**
-     * Build query from scope. Passes to execute it. 
+     * Build query from scope. Passes to execute it.
      *
      * @param  \stdClass  $scope
      * @param  \stdClass $connection
@@ -196,7 +196,7 @@ class Parser
 				$from = 'ALTERNATIVES(' . $from . '.' . $scope->alternativesField . ')';
 			}
 		}
-        
+
         $connection->query = $scope->prepend.'SELECT '.$scope->select.' FROM '.$from.' ';
 
 		if (!is_null($scope->join)){
@@ -222,9 +222,9 @@ class Parser
         $scope->resetSelf();
         return self::sendQuery($connection);
     }
-    
+
     /**
-     * Passes raw query string for exectuion. 
+     * Passes raw query string for exectuion.
      *
      * @param  string  $raw
      * @param  \stdClass $connection
@@ -270,8 +270,8 @@ class Parser
         }
         $connection->method = 'DELETE';
         $connection->action = '';
-        
-        // force strings! REST hates DELETE with integers for now... 
+
+        // force strings! REST hates DELETE with integers for now...
         foreach ($ids as &$id) {
             $id = (string)$id;
         }
@@ -314,7 +314,7 @@ class Parser
         $connection->query = json_encode(array_values($document));
         return self::insert($connection);
     }
-    
+
     /**
      * Set query parametrs to execute - Insert.
      *
@@ -371,50 +371,48 @@ class Parser
      * @param  mixed  $document
      * @return string
      */
-	public static function updateRecursion($document)
+	private static function updateRecursion($document)
 	{
-		$recursiveIterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($document));
-		$tmpResult = array();
+		$result = array();
+		foreach (self::toDotted($document, '', 1) as $path => $value) {
+			$result[] = $path . $value;
+		}
 
-		foreach ($recursiveIterator as $value) {
-			$keys = array();
-			$isValueOnlyArr = false;
+		return implode(' ', $result);
+	}
 
-			foreach (range(0, $recursiveIterator->getDepth()) as $depth) {
-				$isValueOnlyArr = false;
-				$currentValue = $recursiveIterator->getSubIterator($depth)->current();
+	private static function toDotted($array, $prepend = '', $counter = 1)
+	{
+		$results = [];
 
+		if ($prepend !== '') {
+			$results['if (typeof ' . $prepend . ' === \'undefined\' || ' . $prepend . '.constructor === Array ) {' . $prepend . ' = {}}'] = ';';
+		}
+
+		foreach ($array as $key => $value) {
+			if ($counter > 1) {
+				$key = '["' . $key . '"]';
+			} else {
+				$results['if (typeof ' . $key . ' === \'undefined\' || ' . $key . '.constructor === Array) {' . $key . ' = {}}'] = ';';
+			}
+			if (is_array($value) && !empty($value)) {
 				// check if this is meant to be value-only array without assoc keys (P.S. assoc key = field name)
-				if (is_array($currentValue) && (count($currentValue) === 0 || array_keys($currentValue) === range(0, count($currentValue) - 1))) {
-					$isValueOnlyArr = true;
-					$currentKey = $recursiveIterator->getSubIterator($depth)->key();
-					$keys[] = $currentKey;
-					$value = json_encode($currentValue); // value only array
-					break;
+				if (is_array($value) && (count($value) === 0 || array_keys($value) === range(0, count($value) - 1))) {
+					$results[$prepend . $key] = ' = ' . json_encode($value) . ';';
 				} else {
-					$keys[] = $recursiveIterator->getSubIterator($depth)->key();
+					$results = array_merge($results, self::toDotted($value, $prepend . $key, $counter + 1));
+				}
+			} else {
+				if (is_array($value) && count($value) === 0) {
+					$results[$prepend . $key] = ' = ' . json_encode($value) . ';';
+				} else {
+					$results[$prepend . $key] = ' = "' . Client::escape($value) . '";';
 				}
 			}
-
-			$firstKey = $keys[0];
-			unset($keys[0]);
-			if (!$isValueOnlyArr) {
-				$value = '"' . Client::escape($value) . '"';
-			}
-			if (count($keys) > 0) {
-				$tmpResult[$firstKey . '["' . join('"]["', $keys) . '"]'] = $value;
-			} else {
-				$tmpResult[$firstKey] = $value;
-			}
-
 		}
 
-		$result = array();
-		foreach ($tmpResult as $field => $value) {
-			$result[] = $field . ' = ' . $value;
-		}
-		return implode(', ', $result);
-    }
+		return $results;
+	}
 
     /**
      * Set query parametrs to execute - Replace by "_id".

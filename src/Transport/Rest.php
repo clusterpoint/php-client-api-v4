@@ -55,7 +55,7 @@ class Rest implements TransportInterface
             if (curl_error($curl)) {
                 echo "cURL error: ".curl_error($curl)."\r\n";
             }
-            echo "RESPONSE: ".$curlResponse."\r\n";
+            echo "RESPONSE: ".$curlResponse."\r\n\r\n";
         }
 
         curl_close($curl);

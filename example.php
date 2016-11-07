@@ -148,7 +148,6 @@ $results = $booksCollection->select(['name', 'color', 'price', 'category'])
 	->limit(5);
 
 
-
 // allocate a new transaction
 $transaction = $booksCollection->transaction();
 
