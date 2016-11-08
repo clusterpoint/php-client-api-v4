@@ -406,7 +406,13 @@ class Parser
 				if (is_array($value) && count($value) === 0) {
 					$results[$prepend . $key] = ' = ' . json_encode($value) . ';';
 				} else {
-					$results[$prepend . $key] = ' = "' . Client::escape($value) . '";';
+					if (is_string($value)){
+						$results[$prepend . $key] = ' = "' . Client::escape($value) . '";';
+					}
+					else {
+						$results[$prepend . $key] = ' = ' . Client::escape($value) . ';';
+					}
+
 				}
 			}
 		}
