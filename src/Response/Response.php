@@ -268,7 +268,7 @@ class Response implements Iterator, Countable, ResponseInterface
 	 */
 	public function toArray()
 	{
-		return $this->scope->results;
+		return json_decode(json_encode($this->scope->results), true);
 	}
 
 	/**
