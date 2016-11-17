@@ -312,6 +312,7 @@ class Parser
             $document = $document_array;
         }
         $connection->query = json_encode(array_values($document));
+        $connection->multiple = true;
         return self::insert($connection);
     }
 
