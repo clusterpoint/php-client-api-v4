@@ -85,6 +85,9 @@ class Single extends Response
 
 	public function __debugInfo()
 	{
+		if (!is_array($this->scope->results)){
+			return [$this->scope->results];
+		}
 		return $this->scope->results;
 	}
 
