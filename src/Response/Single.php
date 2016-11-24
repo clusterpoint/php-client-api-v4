@@ -73,12 +73,22 @@ class Single extends Response
         $this->scope->results[$key] = $value;
     }
 
-	public function __isset($name){
+	public function __isset($name)
+	{
 		return isset($this->scope->results[$name]);
 	}
 
-	public function __unset($name){
+	public function __unset($name)
+	{
 		unset($this->scope->results[$name]);
+	}
+
+	public function __debugInfo()
+	{
+		if (!is_array($this->scope->results)){
+			return [$this->scope->results];
+		}
+		return $this->scope->results;
 	}
 
     /**

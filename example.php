@@ -19,6 +19,8 @@ $config = array(
 	'debug' => false
 );
 
+@require_once 'config.php'; // for debugging purposes, delete this line
+
 
 // Create Clusterpoint connection
 $clusterpoint = new Clusterpoint\Client($config);
@@ -131,11 +133,17 @@ echo $author->hits();
 echo $author->getQuery();
 var_dump($author);
 
-// list five books with authors using JOIN (currently you have to use raw() function for JOINS)
+// list five books with authors using JOIN
 $books = $booksCollection->raw('SELECT books.title, author.name
         FROM books
         LEFT JOIN authors AS author ON author._id == books.author_id
         LIMIT 5');
+foreach ($books as $book) {
+	echo $book->{'books.title'} . ' (' . $book->{'author.name'} . ')' . "\r\n";
+}
+
+// or using ->join()
+$books = $booksCollection->select('books.title, author.name')->join('LEFT JOIN authors AS author ON author._id == books.author_id')->limit(5)->get();
 foreach ($books as $book) {
 	echo $book->{'books.title'} . ' (' . $book->{'author.name'} . ')' . "\r\n";
 }
@@ -147,7 +155,6 @@ $results = $booksCollection->select(['name', 'color', 'price', 'category'])
 	->groupBy('category')
 	->orderBy('price')
 	->limit(5);
-
 
 
 // allocate a new transaction

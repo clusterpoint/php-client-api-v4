@@ -69,7 +69,15 @@ class Response implements Iterator, Countable, ResponseInterface
 		if (isset($this->scope->error)) {
 			foreach ($this->scope->error as $error) {
 				if (!$connection instanceof ConnectionFaker) {
-					throw new ClusterpointException($error->message, isset($error->code) ? $error->code : 2417);
+					switch ($error->code) {
+						case 2824:
+							//  Requested document does not exist.
+							break;
+
+						default:
+							throw new ClusterpointException($error->message, isset($error->code) ? $error->code : 2417);
+							break;
+					}
 				}
 			}
 		}
@@ -277,7 +285,7 @@ class Response implements Iterator, Countable, ResponseInterface
 	 */
 	public function toArray()
 	{
-		return $this->scope->results;
+		return json_decode(json_encode($this->scope->results), true);
 	}
 
 	/**

@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Clusterpoint\Query;
 
 use Clusterpoint\Client;
@@ -166,7 +166,7 @@ class Parser
     }
 
     /**
-     * Build query from scope. Passes to execute it. 
+     * Build query from scope. Passes to execute it.
      *
      * @param  \stdClass  $scope
      * @param  \stdClass $connection
@@ -196,7 +196,7 @@ class Parser
 				$from = 'ALTERNATIVES(' . $from . '.' . $scope->alternativesField . ')';
 			}
 		}
-        
+
         $connection->query = $scope->prepend.'SELECT '.$scope->select.' FROM '.$from.' ';
 
 		if (!is_null($scope->join)){
@@ -222,9 +222,9 @@ class Parser
         $scope->resetSelf();
         return self::sendQuery($connection);
     }
-    
+
     /**
-     * Passes raw query string for exectuion. 
+     * Passes raw query string for exectuion.
      *
      * @param  string  $raw
      * @param  \stdClass $connection
@@ -270,8 +270,8 @@ class Parser
         }
         $connection->method = 'DELETE';
         $connection->action = '';
-        
-        // force strings! REST hates DELETE with integers for now... 
+
+        // force strings! REST hates DELETE with integers for now...
         foreach ($ids as &$id) {
             $id = (string)$id;
         }
@@ -312,9 +312,10 @@ class Parser
             $document = $document_array;
         }
         $connection->query = json_encode(array_values($document));
+        $connection->multiple = true;
         return self::insert($connection);
     }
-    
+
     /**
      * Set query parametrs to execute - Insert.
      *
@@ -353,20 +354,9 @@ class Parser
                 break;
             case "array":
             case "object":
-                $set_array = array();
-                foreach ($document as $key => $value) {
-                    switch (gettype($value)) {
-                        case "array":
-                        case "object":
-                            $set_array[] = self::updateRecursion($key, $value);
-                        break;
-                        default:
-                        $set_array[] = "{$key} = ".json_encode($value);
-                    }
-                }
                 $connection->method = 'POST';
                 $connection->action = '/_query';
-                $connection->query = 'UPDATE '.$from.'["'.$id.'"] SET '.implode(", ", $set_array);
+                $connection->query = 'UPDATE '.$from.'["'.$id.'"] SET '.self::updateRecursion($document);
                 break;
             default:
                 throw new ClusterpointException("\"->update()\" function: parametr passed ".json_encode(self::escape_string($document))." is not in valid format.", 9002);
@@ -379,45 +369,57 @@ class Parser
     /**
      * Parse document for valid update command.
      *
-     * @param  mixed  $key
-     * @param  mixed  $value
-     * @param  string  $current_query
-     * @param  string  $statement_end
+     * @param  mixed  $document
      * @return string
      */
-    public static function updateRecursion($key, $value, $current_query = '', $statement_end = '')
-    {
-        $query_string = '';
-        switch (gettype($value)) {
-            case "array":
+	private static function updateRecursion($document)
+	{
+		$result = array();
+		foreach (self::toDotted($document, '', 1) as $path => $value) {
+			$result[] = $path . $value;
+		}
+
+		return implode(' ', $result);
+	}
+
+	private static function toDotted($array, $prepend = '', $counter = 1)
+	{
+		$results = [];
+
+		if ($prepend !== '') {
+			$results['if (typeof ' . $prepend . ' === \'undefined\' || ' . $prepend . '.constructor === Array ) {' . $prepend . ' = {}}'] = ';';
+		}
+
+		foreach ($array as $key => $value) {
+			if ($counter > 1) {
+				$key = '["' . $key . '"]';
+			} else {
+				$results['if (typeof ' . $key . ' === \'undefined\' || ' . $key . '.constructor === Array) {' . $key . ' = {}}'] = ';';
+			}
+			if (is_array($value) && !empty($value)) {
 				// check if this is meant to be value-only array without assoc keys (P.S. assoc key = field name)
-				if (array_keys($value) === range(0, count($value) - 1)){
-					return  "{$key} = ".json_encode($value); // value only array
+				if (is_array($value) && (count($value) === 0 || array_keys($value) === range(0, count($value) - 1))) {
+					$results[$prepend . $key] = ' = ' . json_encode($value) . ';';
+				} else {
+					$results = array_merge($results, self::toDotted($value, $prepend . $key, $counter + 1));
 				}
-            case "object":
-                $query_string .= "(typeof {$key} != \"undefined\") ? ";
-                $else_statement = " : {$key} = ".json_encode($value);
-                $counter = 0;
-                foreach ($value as $child_key => $child_value) {
-                    if ($counter==0) {
-                        $child_statement = self::updateRecursion($key."[\"{$child_key}\"]", $child_value, $query_string, $else_statement);
-                        $first= false;
-                    } else {
-                        $child_statement .= ", ".$current_query.$query_string." ".self::updateRecursion($key."[\"{$child_key}\"]", $child_value, $query_string, $else_statement);
-                    }
-                    if (++$counter != count($value)) {
-                        $child_statement .= " : {$key} = ".json_encode($value). $statement_end;
-                    } else {
-                        $query_string .= $child_statement;
-                    }
-                }
-                $query_string .= $else_statement;
-            break;
-            default:
-                $query_string .= "{$key} = ".json_encode($value);
-        }
-        return $query_string;
-    }
+			} else {
+				if (is_array($value) && count($value) === 0) {
+					$results[$prepend . $key] = ' = ' . json_encode($value) . ';';
+				} else {
+					if (is_string($value)){
+						$results[$prepend . $key] = ' = "' . Client::escape($value) . '";';
+					}
+					else {
+						$results[$prepend . $key] = ' = ' . Client::escape($value) . ';';
+					}
+
+				}
+			}
+		}
+
+		return $results;
+	}
 
     /**
      * Set query parametrs to execute - Replace by "_id".
